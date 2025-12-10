@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>H0llyLP Resident Evil Marathon</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    background: radial-gradient(circle at top, #181b22, #0b0d12);
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 35px;
+    font-family: "Nosifer", cursive;
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    color: #ff2e2e;
+    text-shadow: 0 0 15px rgba(255,46,46,.9);
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+}
+
+.game {
+    background: linear-gradient(145deg, #1f2430, #151922);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+}
+
+.game:hover { transform: scale(1.05); }
+
+.game.active {
+    border-color: #ff2e2e;
+    box-shadow: 0 0 25px rgba(255,46,46,.7);
+}
+
+.game.done {
+    border-color: #2ecc71;
+    box-shadow: 0 0 20px rgba(46,204,113,.6);
+}
+
+.game img {
+    width: 100%;
+    height: clamp(190px, 28vw, 260px);
+    object-fit: cover;
+}
+
+.game-title {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    background: rgba(0,0,0,0.35);
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5); /* halbtransparenter Hintergrund für den Rest */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: var(--modal-bg); /* Hier wird das aktuelle Cover genutzt */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(40px) brightness(0.3);
+    border-radius: 20px;
+    z-index: 0;
+}
+
+.modal-header, .modal-content {
+    position: relative;
+    z-index: 1;
+}
+
+
+.modal {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    border-radius: 20px;
+    padding: 20px;
+    animation: pop 0.25s ease;
+    box-sizing: border-box;
+    overflow-y: auto;
+    color: #fff;
+    background: rgba(0,0,0,0.4); /* leicht transparent */
+}
+.modal-header {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Zeilenumbruch auf kleineren Geräten */
+    gap: 10px;
+}
+
+.modal-close {
+    cursor: pointer;
+    font-size: 1.6rem;
+    padding: 5px;
+}
+
+.modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.modal-content > div:first-child {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.modal-content > img {
+    width: 100%;
+    height: 100%;
+    max-height: 80vh;
+    border-radius: 12px;
+    object-fit: contain; /* Bild bleibt vollständig sichtbar */
+    padding: 0; /* Padding entfernt */
+    background: none; /* Kein extra Hintergrund */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.2); /* leichter Shadow um das Bild */
+}
+
+.modal img {
+    width: 100%;
+    border-radius: 12px;
+    max-height: 300px;
+    object-fit: contain; /* Änderung hier */
+}
+
+.status {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.status.done { background: #2ecc71; color: #000; }
+.status.open { background: #555; }
+
+/* Animation */
+@keyframes pop {
+    from { opacity: 0; transform: scale(.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* MOBILE */
+@media(max-width: 700px){
+    .modal-content {
+        grid-template-columns: 1fr;
+    }
+    .modal-content > img {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+        padding: 0;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
+    }
+    .modal {
+        padding: 15px;
+    }
+    .modal-header {
+        font-size: 1.2rem;
+        justify-content: space-between;
+    }
+    .modal img {
+        max-height: none;      /* Keine maximale Höhe */
+        width: 100%;
+        height: auto;          /* Höhe proportional */
+        object-fit: contain;   /* Bild bleibt vollständig sichtbar */
+    }
+    .status {
+        font-size: 0.85rem;
+        padding: 5px 10px;
+    }
+    .modal-close {
+        font-size: 1.4rem;
+    }
+}
+
+.status {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.status.done { background: #2ecc71; color: #000; }
+.status.open { background: #555; }
+
+@keyframes pop {
+    from { opacity: 0; transform: scale(.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media(max-width: 700px){
+    .modal-content { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>H0llyLP Resident Evil Marathon</h1>
+
+<div class="grid" id="grid">
+
+<div class="game done" data-id="re1" data-img="Resident Evil 1.jpg"><img src="Resident Evil 1.jpg"><div class="game-title">Resident Evil 1</div></div>
+<div class="game" data-id="re2" data-img="Resident Evil 2.png"><img src="Resident Evil 2.png"><div class="game-title">Resident Evil 2</div></div>
+<div class="game" data-id="re3" data-img="Resident Evil 3.jpg"><img src="Resident Evil 3.jpg"><div class="game-title">Resident Evil 3</div></div>
+<div class="game" data-id="re4" data-img="Resident Evil 4.jpg"><img src="Resident Evil 4.jpg"><div class="game-title">Resident Evil 4</div></div>
+<div class="game" data-id="zero" data-img="Resident Evil Zero.jpg"><img src="Resident Evil Zero.jpg"><div class="game-title">Resident Evil Zero</div></div>
+
+<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpeg"><img src="Resident Evil 1 Remake.jpeg"><div class="game-title">Resident Evil 1 Remake</div></div>
+<div class="game" data-id="re2r" data-img="Resident Evil 2 Remake.jpg"><img src="Resident Evil 2 Remake.jpg"><div class="game-title">Resident Evil 2 Remake</div></div>
+<div class="game" data-id="re3r" data-img="Resident Evil 3 Remake.jpg"><img src="Resident Evil 3 Remake.jpg"><div class="game-title">Resident Evil 3 Remake</div></div>
+<div class="game" data-id="re4r" data-img="Resident Evil 4 Remake.png"><img src="Resident Evil 4 Remake.png"><div class="game-title">Resident Evil 4 Remake</div></div>
+
+<div class="game" data-id="re5" data-img="Reisdent Evil 5.jfif"><img src="Reisdent Evil 5.jfif"><div class="game-title">Resident Evil 5</div></div>
+<div class="game" data-id="re6" data-img="Resident Evil 6.png"><img src="Resident Evil 6.png"><div class="game-title">Resident Evil 6</div></div>
+<div class="game" data-id="re7" data-img="Resident Evil 7.jpg"><img src="Resident Evil 7.jpg"><div class="game-title">Resident Evil 7</div></div>
+<div class="game" data-id="re8" data-img="Resident Evil Village.jpg"><img src="Resident Evil Village.jpg"><div class="game-title">Resident Evil Village</div></div>
+
+<div class="game" data-id="cv" data-img="Resident Evil Code Veronica.jpg"><img src="Resident Evil Code Veronica.jpg"><div class="game-title">Resident Evil Code: Veronica</div></div>
+
+<div class="game" data-id="rev1" data-img="Resident Evil Revelation 1.png"><img src="Resident Evil Revelation 1.png"><div class="game-title">Resident Evil Revelations</div></div>
+<div class="game" data-id="rev2" data-img="Resident Evil Revelations 2.jpg"><img src="Resident Evil Revelations 2.jpg"><div class="game-title">Resident Evil Revelations 2</div></div>
+
+<div class="game" data-id="dead" data-img="Resident Evil Dead Aim.webp"><img src="Resident Evil Dead Aim.webp"><div class="game-title">Resident Evil Dead Aim</div></div>
+
+<div class="game" data-id="ob1" data-img="Resident Evil Outbreak 1.jpg"><img src="Resident Evil Outbreak 1.jpg"><div class="game-title">Resident Evil Outbreak</div></div>
+<div class="game" data-id="ob2" data-img="Resident Evil Outbreak 2.jpg"><img src="Resident Evil Outbreak 2.jpg"><div class="game-title">Resident Evil Outbreak File 2</div></div>
+
+<div class="game" data-id="survivor" data-img="Reident Evil Survivor.jfif"><img src="Reident Evil Survivor.jfif"><div class="game-title">Resident Evil Survivor</div></div>
+<div class="game" data-id="darkside" data-img="Resident Evil The Darkside Chronicles.jpg"><img src="Resident Evil The Darkside Chronicles.jpg"><div class="game-title">Resident Evil: The Darkside Chronicles</div></div>
+<div class="game" data-id="gaiden" data-img="Resident Evil Gaiden.webp"><img src="Resident Evil Gaiden.webp"><div class="game-title">Resident Evil Gaiden</div></div>
+
+</div>
+
+<!-- ✅ MODAL -->
+<div class="modal-backdrop" id="modal">
+    <div class="modal">
+        <div class="modal-header">
+            <span id="modalTitle"></span>
+            <span class="modal-close" onclick="closeModal()">✕</span>
+        </div>
+        <div class="modal-content">
+            <div>
+                <div id="modalStatus"></div>
+                <p>Aufzeichnung: <a href="#" style="color:#ff2e2e">Hier klicken</a></p>
+                <p>Notizen: Eigene Infos eintragen…</p>
+            </div>
+            <img id="modalImage">
+        </div>
+    </div>
+</div>
+
+<script>
+const games = document.querySelectorAll(".game");
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const modalImage = document.getElementById("modalImage");
+const modalStatus = document.getElementById("modalStatus");
+
+const data = {
+re1: "done", re2: "open", re3: "open", re4: "open", zero: "open",
+re1r: "open", re2r: "open", re3r: "open", re4r: "open",
+re5: "open", re6: "open", re7: "open", re8: "open",
+cv: "open", rev1: "open", rev2: "open", dead: "open",
+ob1: "open", ob2: "open", survivor: "open",
+darkside: "open", gaiden: "open"
+};
+
+games.forEach(game => {
+    game.addEventListener("click", () => {
+        games.forEach(g => g.classList.remove("active"));
+        game.classList.add("active");
+
+        const id = game.dataset.id;
+        const title = game.innerText;
+        const img = game.dataset.img;
+        const state = data[id];
+
+        modalTitle.innerText = title;
+        modalImage.src = img;
+
+        modalStatus.innerHTML = `
+            <span class="status ${state}">
+                ${state === "done" ? "ABGESCHLOSSEN" : "OFFEN"}
+            </span>
+        `;
+
+        // Hintergrundbild für das Pseudo-Element setzen
+        modal.style.setProperty('--modal-bg', `url('${img}')`);
+
+        modal.style.display = "flex";
+    });
+});
+
+
+
+function closeModal(){
+    modal.style.display = "none";
+    games.forEach(g => g.classList.remove("active"));
+}
+
+modal.addEventListener("click", e => {
+    if(e.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", e => {
+    if(e.key === "Escape") closeModal();
+});
+</script>
+
+</body>
+</html>
