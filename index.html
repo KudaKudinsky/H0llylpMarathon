@@ -35,8 +35,20 @@ h1 {
     margin-bottom: 35px;
     font-family: "Nosifer", cursive;
     font-size: clamp(1.6rem, 4vw, 2.6rem);
-    color: #f0f0f0; /* helles Weiß, gut sichtbar auf dunklem Bild */
-    text-shadow: 0 0 6px rgba(0,0,0,0.5); /* leichter dunkler Schatten für Tiefe */
+    color: #f0f0f0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center; /* vertikal zentriert Text & Logo */
+    gap: 10px;
+}
+
+.twitch-logo {
+    height: 1em;        /* gleich hoch wie Text auf Desktop */
+    width: auto;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle; /* zentriert das Logo perfekt zur Textmitte */
 }
 
 /* GRID */
@@ -223,6 +235,12 @@ h1 {
         padding: 15px;
     }
 
+   h1 {
+        font-size: clamp(1.4rem, 6vw, 2.2rem);
+    }
+     .twitch-logo {
+        height: 1.3em;
+    }
   .modal-content {
         grid-template-columns: 1fr; /* stapelt Text und Bild */
     }
@@ -289,8 +307,12 @@ h1 {
 
 <body>
 
-<h1>H0llyLP Resident Evil Marathon</h1>
-
+<h1>
+  H0llyLP Resident Evil Marathon
+  <a href="https://www.twitch.tv/h0llylp" target="_blank">
+    <img src="twitch.png" alt="Twitch" class="twitch-logo">
+  </a>
+</h1>
 <div class="grid" id="grid">
 
 <div class="game" data-id="re1" data-img="Resident Evil 1.jpg"><img src="Resident Evil 1.jpg"><div class="game-title">Resident Evil 1</div></div>
@@ -455,7 +477,6 @@ document.addEventListener("keydown", e => {
 
 </body>
 </html>
-
 
 
 
