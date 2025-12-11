@@ -4,7 +4,10 @@
 <meta charset="UTF-8">
 <title>H0llyLP Resident Evil Marathon</title>
 
+<link rel="icon" type="image/png" href="holly.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 
@@ -179,11 +182,12 @@ h1 {
     overflow-y: auto;
 }
 
+/*
 .modal::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: var(--modal-bg); /* Hier wird das aktuelle Cover genutzt */
+    background-image: var(--modal-bg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -191,18 +195,37 @@ h1 {
     border-radius: 20px;
     z-index: 0;
 }
+*/
 
-.modal-header, .modal-content {
-    position: relative;
-    z-index: 1;
+
+/* Responsive: kein Bild auf kleineren Geräten */
+@media(max-width: 700px){
+    .modal-bottom {
+        flex-direction: column;
+    }
+    .image-wrapper {
+        display: none;
+    }
 }
+
+/* Typewriter Animation */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blinkCursor {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #ff2e2e; }
+}
+
 
 
 /* Overlay */
 #startOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,11 +244,11 @@ h1 {
   opacity: 0;
 }
 
-/* Glow-Effekt im Idle */
+/* Glow-Effekt im Idle 
 #startOverlay text {
-  filter: drop-shadow(0 0 5px #ff2e2e);
-  animation: glowPulse 1.5s infinite alternate;
-}
+  filter: drop-shadow(0 0 5px #ffffff);
+  // animation: glowPulse 1.5s infinite alternate;
+} */
 
 @keyframes glowPulse {
   from { filter: drop-shadow(0 0 5px #ff2e2e); }
@@ -292,69 +315,198 @@ h1 {
     border: 0;
   }
 
-.modal {
-    position: relative;
-    width: 100%;
+.modal.hard-edge {
+    background: #0d0e23;
+    border-radius: 0;
+    width: 90%;
     max-width: 900px;
     max-height: 90vh;
-    border-radius: 20px;
-    padding: 20px;
-    animation: pop 0.25s ease;
-    box-sizing: border-box;
-    overflow-y: auto;
-    color: #fff;
-    background: rgba(0,0,0,0.4); /* leicht transparent */
-}
-.modal-header {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 15px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    overflow: hidden;
+    color: #fff;
+
+    /* Metallischer Rahmen */
+    border: 6px solid; /* doppelt so dick */
+    border-image-slice: 1;
+    border-image-source: linear-gradient(135deg, #464545, #a3a3a3, #726e6d);
+
+    position: relative; /* für X-Button falls benötigt */
+}
+/* Header */
+.modal-top {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: #130e60;  /* Header dunkelblau */
     align-items: center;
-    flex-wrap: wrap; /* Zeilenumbruch auf kleineren Geräten */
-    gap: 10px;
+
+    /* Metallischer Border unten */
+    border-bottom: 3px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, #a3a3a3, #464545, #726e6d);
+}
+
+.modal-left {
+    flex: 1;
+}
+
+.modal-header {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(1rem, 2vw, 1.5rem); /* deutlich größer */
+    color: #f0f0f0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.modal-right-gif {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: auto; /* Höhe via JS gesetzt */
+    display: flex;
+    align-items: stretch;
+    overflow: visible; /* damit Border sichtbar ist */
+}
+
+.modal-right-gif img {
+    height: 100%;   /* volle Containerhöhe, also exakt Headerhöhe */
+    width: auto;
+    object-fit: cover;
+}
+/* GIF bei kleinen Bildschirmen ausblenden */
+@media (max-width: 700px) {
+    .modal-right-gif {
+        display: none;
+    }
+}
+
+/* Untere + linke "Border" via Pseudo-Element */
+.modal-right-gif::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;    /* untere Border */
+    height: 8px;    /* Dicke */
+    background: #141414;
+}
+
+.modal-right-gif::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 8px;    /* linke Border */
+    height: 100%;   /* gesamte Höhe */
+    background: linear-gradient(to bottom, #464545, #726e6d, #141414);
+}
+
+.modal-right-gif,
+.image-wrapper,
+.modal-left-content {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
+}
+/* Untere Sektion */
+.modal-bottom {
+    display: flex;
+    gap: 0; /* kein Abstand zwischen Bild und Textbereich */
+    padding: 0;
+    border-top: 6px solid; /* doppelt so dick wie vorher */
+    border-image-slice: 1;
+    border-image-source: linear-gradient(135deg, #c0c0c0, #ffffff, #808080);
+}
+.modal-bottom {
+    display: flex;
+    border-top: 3px solid #ff2e2e; /* Metall-Border */
+}
+
+/* Text Content 2/3 */
+.modal-left-content {
+    flex: 2;
+    position: relative;
+    background-color: #0d0e23;
+    overflow: hidden;
+    padding: 20px;
 }
 
 .modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #0d0e23; /* dunkler Hintergrund */
+    color: #ff2e2e; /* klassisches Rot */
+    border: 2px solid #ff2e2e; /* alte GUI-Optik */
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2rem; /* größerer X */
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
-    font-size: 1.6rem;
-    padding: 5px;
-}
-
-.modal-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0px;
-}
-.modal-content > div:first-child {
-    padding: 15px;
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* vertikal zentrieren */
-    align-items: center;     /* horizontal zentrieren */
-    text-align: center;
-    gap: 10px; /* Abstand zwischen Status und Link */
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 0; /* quadratisch, oldschool */
+    box-shadow: inset -3px -3px 0 #fff, inset 3px 3px 0 #000; /* altmodischer 3D-Effekt */
+    z-index: 10;
 }
 
+.modal-close:hover {
+    background-color: #ff2e2e;
+    color: #fff;
+}
 
-.modal-content > img {
+/* Hintergrundbild nur im Text Content */
+.modal-left-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('rpd.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Text über dem Hintergrund */
+.modal-left-content * {
+    position: relative;
+    z-index: 1;
+}
+
+#modalTextWrapper {
+    position: relative;
+    z-index: 1; /* sicher über dem Hintergrundbild */
+}
+
+/* Image rechts 1/3 */
+.image-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-wrapper img {
     width: 100%;
     height: 100%;
-    max-height: 80vh;
-    border-radius: 12px;
-    object-fit: contain; /* Bild bleibt vollständig sichtbar */
-    padding: 0; /* Padding entfernt */
-    background: none; /* Kein extra Hintergrund */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.2); /* leichter Shadow um das Bild */
+    object-fit: cover;
+}
+/* Responsive */
+@media(max-width:700px){
+    .modal-bottom {
+        flex-direction: column;
+    }
+    .image-wrapper {
+        display: none;
+    }
 }
 
-.modal img {
-    width: 100%;
-    border-radius: 12px;
-    max-height: 300px;
-    object-fit: contain; /* Änderung hier */
+/* Typewriter Animation */
+@keyframes blinkCursor {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #ff2e2e; }
 }
+
 
 .status {
     display: inline-block;
@@ -386,17 +538,6 @@ h1 {
     
     #startOverlay svg text {
         font-size: 45vw; /* kleiner auf Smartphones */
-    }
-
-    .modal-content > img {
-        width: 100%;
-        height: auto;
-        max-height: 60vh;
-        padding: 0;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
-    }
-    .modal {
-        padding: 15px;
     }
 
 .game-title {
@@ -431,30 +572,9 @@ h1 {
         box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
         margin-top: 15px;
     }
-.modal-content > div:first-child {
-        padding: 10px;
-    }
-    .image-wrapper img {
-        height: auto;
-        max-height: 60vh;
-    }  max-height: 60vh;
-    }
-    .modal-header {
-        font-size: 1.2rem;
-        justify-content: space-between;
-    }
-    .modal img {
-        max-height: none;      /* Keine maximale Höhe */
-        width: 100%;
-        height: auto;          /* Höhe proportional */
-        object-fit: contain;   /* Bild bleibt vollständig sichtbar */
-    }
     .status {
         font-size: 0.85rem;
         padding: 5px 10px;
-    }
-    .modal-close {
-        font-size: 1.4rem;
     }
 }
 
@@ -490,6 +610,30 @@ body.start .fade-in {
     box-shadow: 0 0 25px rgba(255,46,46,0.7);
 }
 
+
+/* Tablets & kleinere Laptops */
+@media (max-width: 900px) {
+  #startOverlay text.start-stream {
+    font-size: 3.5vw !important;
+  }
+}
+
+/* Smartphones im Querformat */
+@media (max-width: 600px) {
+  #startOverlay text.start-stream {
+    font-size: 4.8vw !important;
+  }
+}
+
+/* Smartphones im Hochformat */
+@media (max-width: 420px) {
+  #startOverlay text.start-stream {
+    font-size: 6vw !important;
+  }
+}
+
+
+
 .status.done { background: #2ecc71; color: #000; }
 .status.open { background: #555; }
 
@@ -497,6 +641,13 @@ body.start .fade-in {
     from { opacity: 0; transform: scale(.9); }
     to { opacity: 1; transform: scale(1); }
 }
+
+@keyframes fadePulse {
+  0%   { opacity: 0.2; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
 
 @media(max-width: 700px){
     .modal-content { grid-template-columns: 1fr; }
@@ -507,12 +658,48 @@ body.start .fade-in {
 
 <body>
 <div id="startOverlay">
-  <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
-    <text x="50%" y="50%" font-family="ResidentEvil7" font-size="12vw" text-anchor="middle" dominant-baseline="middle" fill="#f0f0f0">
-       <tspan fill="#ff2e2e">Z</tspan>u <tspan fill="#ff2e2e">D</tspan>en <tspan fill="#ff2e2e">G</tspan>ames
+  <svg viewBox="0 0 1200 550" xmlns="http://www.w3.org/2000/svg"
+       style="width:100%; max-width:1200px; height:auto;">
+
+    <!-- Haupttitel: Resident Evil: M -->
+    <text x="50%" 
+          y="40%" 
+          font-family="ResidentEvil7" 
+          font-size="12vw"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="#f0f0f0"
+          style="filter: drop-shadow(0 0 6px #000000);">
+
+      <tspan fill="#ff2e2e">R</tspan>esident 
+      <tspan fill="#ff2e2e">E</tspan>vil: M
     </text>
+
+    <!-- Untertitel: START STREAM -->
+    <text x="50%" 
+          y="80%" 
+          class="start-stream"
+          font-family="Arial, sans-serif"
+          font-size="1.2vw"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="white"
+          font-weight="bold"
+          letter-spacing="0.22em"
+          style="
+            filter: 
+              drop-shadow(0 0 4px black)
+              drop-shadow(0 0 8px black)
+              drop-shadow(0 0 14px black);
+            animation: fadePulse 3s ease-in-out infinite;
+          ">
+      START STREAM
+    </text>
+
   </svg>
 </div>
+
+
 
     <div id="top-section">
 <div style="text-align:center; margin-bottom:35px; margin-top:35px" class="fade-in">
@@ -535,7 +722,7 @@ body.start .fade-in {
 <div class="game" data-id="re4" data-img="Resident Evil 4.jpg"><img src="Resident Evil 4.jpg"><div class="game-title">Resident Evil 4</div></div>
 <div class="game" data-id="zero" data-img="Resident Evil Zero.jpg"><img src="Resident Evil Zero.jpg"><div class="game-title">Resident Evil Zero</div></div>
 
-<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpeg"><img src="Resident Evil 1 Remake.jpeg"><div class="game-title">Resident Evil 1 Remake</div></div>
+<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpg"><img src="Resident Evil 1 Remake.jpg"><div class="game-title">Resident Evil 1 Remake</div></div>
 <div class="game" data-id="re2r" data-img="Resident Evil 2 Remake.jpg"><img src="Resident Evil 2 Remake.jpg"><div class="game-title">Resident Evil 2 Remake</div></div>
 <div class="game" data-id="re3r" data-img="Resident Evil 3 Remake.jpg"><img src="Resident Evil 3 Remake.jpg"><div class="game-title">Resident Evil 3 Remake</div></div>
 <div class="game" data-id="re4r" data-img="Resident Evil 4 Remake.png"><img src="Resident Evil 4 Remake.png"><div class="game-title">Resident Evil 4 Remake</div></div>
@@ -564,29 +751,32 @@ body.start .fade-in {
 
 <!-- ✅ MODAL -->
 <div class="modal-backdrop" id="modal">
-    <div class="modal">
-        <div class="modal-header">
-            <span id="modalTitle"></span>
-            <span class="modal-close" onclick="closeModal()">✕</span>
+    <div class="modal hard-edge">
+        <!-- Obere Sektion: Header + GIF -->
+        <div class="modal-top">
+            <div class="modal-left">
+                <div class="modal-header" id="modalTitle"></div>
+            </div>
+            <button class="modal-close" onclick="closeModal()">X</button>
         </div>
- <div class="modal-content">
-    <div>
-        <!-- Status -->
-        <div id="modalStatus"></div>
 
-        <!-- Aufzeichnungs-Link anzeigen -->
-        <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
-    </div>
 
-    <!-- Rechter Bereich: Bild -->
-    <div class="image-wrapper">
-        <img id="modalImage">
-    </div>
+        <!-- Untere Sektion: Content + Bild -->
+        <div class="modal-bottom">
+            <div class="modal-left-content">
+                <div id="modalTextWrapper">
+                    <div id="modalStatus"></div>
+                    <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
+                </div>
+            </div>
+            <div class="image-wrapper">
+                <img id="modalImage" src="">
+            </div>
+        </div>
+
+     </div>
 </div>
 
-
-    </div>
-</div>
 
 <section id="twitch-stream" style="margin-top:30px; text-align:center;">
   <!-- Live auf Twitch mit Logo rechts -->
@@ -613,17 +803,17 @@ body.start .fade-in {
 <script>
 const games = document.querySelectorAll(".game");
 const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
 const modalImage = document.getElementById("modalImage");
-const modalStatus = document.getElementById("modalStatus");
 const recordingDisplay = document.getElementById("recordingLinkDisplay");
 
-
 const selectSound = new Audio('resident_evil_3_menu.mp3');
-selectSound.volume = 0.5; // Lautstärke optional, 0.0 - 1.0
+selectSound.volume = 0.1;
 
 const hoverSound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
-hoverSound.volume = 0.5; // Lautstärke 0.0 bis 1.0
+hoverSound.volume = 0.1;
+
+const typeSound = new Audio('typewriter.mp3'); // Sound für jeden Buchstaben
+typeSound.volume = 0.2; // Lautstärke anpassen
 
 // Status für alle Spiele
 const data = {
@@ -635,13 +825,12 @@ const data = {
     darkside: "open", gaiden: "open"
 };
 
-// Aufzeichnungs-Links für Spiele, nur wenn vorhanden
+// Aufzeichnungslinks
 const recordings = {
     re1: "https://www.twitch.tv/videos/2638659125",
     re2: "https://www.twitch.tv/videos/2639472867",
     re3: "https://www.twitch.tv/videos/2640291764?t=0h0m1s",
     survivor: "https://www.twitch.tv/videos/2640291764?t=5h4m2s"
-    // Weitere Links hier hinzufügen
 };
 
 // ✅ Klasse 'done' direkt beim Laden setzen
@@ -649,71 +838,131 @@ games.forEach(game => {
     const id = game.dataset.id;
     if(data[id] === "done") {
         game.classList.add("done");
+    } else {
+        game.classList.add("open-game");
     }
 });
 
-
-
-
-games.forEach(game => {
-    const id = game.dataset.id;
-    const state = data[id];
-
-    if(state === "done") {
-        game.classList.add("done"); // grüner Effekt
-    } else if(state === "open") {
-        game.classList.add("open-game"); // roter Effekt für offene Spiele
-    }
-});
-
+// Overlay starten
 const startOverlay = document.getElementById('startOverlay');
 const introSound = new Audio('resident-evil-intro.mp3');
-introSound.volume = 0.6;
+introSound.volume = 0.2;
 
 startOverlay.addEventListener('click', () => {
-    // Sound abspielen
     introSound.currentTime = 0;
     introSound.play();
-
-    // Kurz weiß aufblitzen
     startOverlay.classList.add('flash');
 
     startOverlay.addEventListener('animationend', () => {
         startOverlay.classList.remove('flash');
         startOverlay.classList.add('fade-out');
-
         startOverlay.addEventListener('transitionend', () => {
             startOverlay.style.display = 'none';
             document.body.classList.add('start');
-
-            // Jetzt die Cards nacheinander einblenden
             const gridItems = document.querySelectorAll(".game");
             gridItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.add('fade-in');
-                }, index * 100); // 100ms Verzögerung für sichtbareren Effekt
+                setTimeout(() => item.classList.add('fade-in'), index * 100);
             });
         }, { once: true });
-
     }, { once: true });
 });
 
+// Sound für Modal-Schließen
+const closeSound = new Audio('resident-evil-typewriter.mp3');
+closeSound.volume = 0.1;
+
+function closeModal() {
+    modal.style.display = "none";
+    games.forEach(g => g.classList.remove("active"));
+
+    // Typewriter sofort stoppen
+    typewriterController.timers.forEach(t => clearTimeout(t));
+    typewriterController.timers = [];
+    typewriterController.active = false;
+
+    closeSound.currentTime = 0;
+    closeSound.play();
+}
+
+modal.addEventListener("click", e => {
+    if(e.target === modal) closeModal();
+});
+
+document.addEventListener("keydown", e => {
+    if(e.key === "Escape") closeModal();
+});
+
+const typewriterController = {
+    timers: [],
+    active: true // Flag, ob Typewriter gerade aktiv ist
+};
+
+function typeWriterHTML(element, htmlText, speed = 50, callback) {
+    // Alte Timer löschen
+    typewriterController.active = true;
+    typewriterController.timers.forEach(t => clearTimeout(t));
+    typewriterController.timers = [];
+
+    element.innerHTML = ""; // vorher leeren
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+    const nodes = Array.from(tempDiv.childNodes);
+
+    function typeNode(nodeIndex, charIndex) {
+        if (!typewriterController.active) return;
+        if (nodeIndex >= nodes.length) {
+            if(callback) callback();
+            return;
+        }
+
+        const node = nodes[nodeIndex];
+
+        if(node.nodeType === Node.TEXT_NODE) {
+            const char = node.textContent.charAt(charIndex);
+            element.innerHTML += char;
+
+            // ✅ Neuer Audio-Instanz für jeden Buchstaben
+            if(char.trim() !== "") {
+                if(typewriterController.active) {
+                    const sound = new Audio('typewriter.mp3');
+                    sound.volume = 0.1;
+                    sound.play();
+                }
+            }
+
+            charIndex++;
+            let delay = char === "." ? 200 : speed;
+            if(charIndex < node.textContent.length) {
+                const t = setTimeout(() => typeNode(nodeIndex, charIndex), delay);
+                typewriterController.timers.push(t);
+            } else {
+                typeNode(nodeIndex + 1, 0);
+            }
+        } else if(node.nodeType === Node.ELEMENT_NODE) {
+            const tag = document.createElement(node.nodeName);
+            for(let attr of node.attributes) tag.setAttribute(attr.name, attr.value);
+            element.appendChild(tag);
+            typeWriterHTML(tag, node.innerHTML, speed, () => typeNode(nodeIndex + 1, 0));
+        }
+    }
+
+    typeNode(0, 0);
+}
 
 
-
-// Klick auf ein Spiel öffnet das Modal
+// Spiele Klick Event
 games.forEach(game => {
     game.addEventListener("mouseenter", () => {
         const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
-        sound.volume = 0.5;
+        sound.volume = 0.1;
         sound.play();
     });
+
     game.addEventListener("click", () => {
-        // Sound abspielen
-        selectSound.currentTime = 0; // von Anfang starten
+        selectSound.currentTime = 0;
         selectSound.play();
 
-        // Bestehender Code
+        // Active-Klasse setzen
         games.forEach(g => g.classList.remove("active"));
         game.classList.add("active");
 
@@ -722,56 +971,84 @@ games.forEach(game => {
         const img = game.dataset.img;
         const state = data[id];
 
-        modalTitle.innerText = title;
-        modalImage.src = img;
+        const missionStatus = state === "done" ? "Erfolgreich" : "Ausstehend";
+        const missionColor = state === "done" ? "green" : "red";
+        const recordingLink = recordings[id];
 
-        modalStatus.innerHTML = `
-            <span class="status ${state}">
-                ${state === "done" ? "ABGESCHLOSSEN" : "OFFEN"}
-            </span>
-        `;
+        // Lade-Text vorbereiten
+        const loadingLines = [
+            "Login...",
+            "Username: H0llyLP",
+            "Passwort: *****",
+            "...",
+            "H0llyLP erfolgreich autorisiert...",
+            "Lade Missionsdaten...",
+            `${title} Speicherdaten werden geladen...`,
+            `<span style="color:${missionColor}; font-weight:bold;">Mission: ${missionStatus}</span>`
+        ];
 
-        modal.style.setProperty('--modal-bg', `url('${img}')`);
+        if(recordingLink) {
+            let linkText = "Twitch";
+            let linkColor = "#6441a5";
+
+            if(recordingLink.includes("youtube.com") || recordingLink.includes("youtu.be")) {
+                linkText = "YouTube";
+                linkColor = "#CD201F";
+            }
+
+            loadingLines.push(`<span style="white-space: nowrap;">Zur Mission: <a href="${recordingLink}" target="_blank" style="color:${linkColor}; text-decoration:underline;">${linkText}</a></span>`);
+        }
+
+        // Modal öffnen
         modal.style.display = "flex";
 
-        if(recordings[id]) {
-            recordingDisplay.innerHTML = `
-                Aufzeichnung: <a href="${recordings[id]}" target="_blank" style="color:#ff2e2e;">Hier klicken</a>
-            `;
-        } else {
-            recordingDisplay.innerHTML = `Noch keine Aufzeichnung verfügbar`;
-        }
+        // Modal-Header direkt setzen (kein Typewriter)
+        const modalHeader = document.getElementById("modalTitle");
+        modalHeader.innerHTML = title;
+
+        // Modal-Body tippen
+        recordingDisplay.innerHTML = "";
+        typeWriterLinesInline(loadingLines, recordingDisplay, 50, 400);
+
+        // Bild setzen
+        modalImage.src = img;
     });
 });
 
-// Typwriter-Sound beim Schließen des Modals
-const closeSound = new Audio('resident-evil-typewriter.mp3');
-closeSound.volume = 0.5; // Lautstärke optional
 
-function closeModal(){
-    modal.style.display = "none";
-    games.forEach(g => g.classList.remove("active"));
+function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
+    let lineIndex = 0;
 
-    // Sound abspielen
-    closeSound.currentTime = 0; // von Anfang starten
-    closeSound.play();
+    // Alte Timer löschen
+    typewriterController.timers.forEach(t => clearTimeout(t));
+    typewriterController.timers = [];
+
+    function typeLine() {
+        if (lineIndex >= lines.length) return;
+
+        const span = document.createElement("span");
+        element.appendChild(span);
+
+        typeWriterHTML(span, lines[lineIndex], speed, () => {
+            if (!lines[lineIndex].includes('white-space: nowrap')) {
+                element.appendChild(document.createElement("br"));
+            }
+            lineIndex++;
+            const t = setTimeout(typeLine, lineDelay);
+            typewriterController.timers.push(t);
+        });
+    }
+
+    typeLine();
 }
 
-// Klick auf Hintergrund schließt Modal
-modal.addEventListener("click", e => {
-    if(e.target === modal) closeModal();
-});
-
-// ESC schließt Modal
-document.addEventListener("keydown", e => {
-    if(e.key === "Escape") closeModal();
-});
 
 
 </script>
 
 </body>
 </html>
+
 
 
 

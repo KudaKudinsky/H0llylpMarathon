@@ -179,84 +179,21 @@ h1 {
     overflow-y: auto;
 }
 
-/*.modal::before {
+/*
+.modal::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: var(--modal-bg); /* Hier wird das aktuelle Cover genutzt */
+    background-image: var(--modal-bg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     filter: blur(40px) brightness(0.3);
     border-radius: 20px;
     z-index: 0;
-}*/
-
-.modal.hard-edge {
-    background: #000; /* harte Kante */
-    border-radius: 0; /* keine abgerundeten Ecken */
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    overflow: hidden;
-    color: #fff;
 }
+*/
 
-.modal-top {
-    display: flex;
-    background: #111;
-    padding: 20px;
-    gap: 15px;
-    align-items: center;
-    border-bottom: 2px solid #ff2e2e;
-}
-
-.modal-header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.modal-header {
-    font-family: "ResidentEvil7", sans-serif;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    color: #f0f0f0;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 0.15em solid #ff2e2e; /* Typewriter Cursor */
-}
-
-.modal-gif img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-}
-
-.modal-bottom {
-    display: flex;
-    padding: 20px;
-    gap: 20px;
-}
-
-.modal-info {
-    flex: 1;
-}
-
-.image-wrapper {
-    flex: 1;
-    border-radius: 0;
-    overflow: hidden;
-}
-
-.image-wrapper img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
 
 /* Responsive: kein Bild auf kleineren Geräten */
 @media(max-width: 700px){
@@ -304,11 +241,11 @@ h1 {
   opacity: 0;
 }
 
-/* Glow-Effekt im Idle */
+/* Glow-Effekt im Idle 
 #startOverlay text {
   filter: drop-shadow(0 0 5px #ffffff);
   // animation: glowPulse 1.5s infinite alternate;
-}
+} */
 
 @keyframes glowPulse {
   from { filter: drop-shadow(0 0 5px #ff2e2e); }
@@ -375,69 +312,171 @@ h1 {
     border: 0;
   }
 
-.modal {
-    position: relative;
-    width: 100%;
+.modal.hard-edge {
+    background: #0d0e23;
+    border-radius: 0;
+    width: 90%;
     max-width: 900px;
     max-height: 90vh;
-    border-radius: 20px;
-    padding: 20px;
-    animation: pop 0.25s ease;
-    box-sizing: border-box;
-    overflow-y: auto;
-    color: #fff;
-    background: rgba(0,0,0,0.4); /* leicht transparent */
-}
-.modal-header {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Zeilenumbruch auf kleineren Geräten */
-    gap: 10px;
-}
-
-.modal-close {
-    cursor: pointer;
-    font-size: 1.6rem;
-    padding: 5px;
-}
-
-.modal-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0px;
-}
-.modal-content > div:first-child {
-    padding: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* vertikal zentrieren */
-    align-items: center;     /* horizontal zentrieren */
-    text-align: center;
-    gap: 10px; /* Abstand zwischen Status und Link */
+    overflow: hidden;
+    color: #fff;
+
+    /* Metallischer Rahmen */
+    border: 6px solid; /* doppelt so dick */
+    border-image-slice: 1;
+    border-image-source: linear-gradient(135deg, #464545, #a3a3a3, #726e6d);
+
+    position: relative; /* für X-Button falls benötigt */
+}
+/* Header */
+.modal-top {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: #130e60;  /* Header dunkelblau */
+    align-items: center;
+
+    /* Metallischer Border unten */
+    border-bottom: 3px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(90deg, #a3a3a3, #464545, #726e6d);
 }
 
+.modal-left {
+    flex: 1;
+}
 
-.modal-content > img {
+.modal-header {
+    font-family: "ResidentEvil7", sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem); /* deutlich größer */
+    color: #f0f0f0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.modal-right-gif {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: auto; /* Höhe via JS gesetzt */
+    display: flex;
+    align-items: stretch;
+    overflow: visible; /* damit Border sichtbar ist */
+}
+
+.modal-right-gif img {
+    height: 100%;   /* volle Containerhöhe, also exakt Headerhöhe */
+    width: auto;
+    object-fit: cover;
+}
+/* GIF bei kleinen Bildschirmen ausblenden */
+@media (max-width: 700px) {
+    .modal-right-gif {
+        display: none;
+    }
+}
+
+/* Untere + linke "Border" via Pseudo-Element */
+.modal-right-gif::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;    /* untere Border */
+    height: 8px;    /* Dicke */
+    background: #141414;
+}
+
+.modal-right-gif::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 8px;    /* linke Border */
+    height: 100%;   /* gesamte Höhe */
+    background: linear-gradient(to bottom, #464545, #726e6d, #141414);
+}
+
+.modal-right-gif,
+.image-wrapper,
+.modal-left-content {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
+}
+/* Untere Sektion */
+.modal-bottom {
+    display: flex;
+    gap: 0; /* kein Abstand zwischen Bild und Textbereich */
+    padding: 0;
+    border-top: 6px solid; /* doppelt so dick wie vorher */
+    border-image-slice: 1;
+    border-image-source: linear-gradient(135deg, #c0c0c0, #ffffff, #808080);
+}
+.modal-bottom {
+    display: flex;
+    border-top: 3px solid #ff2e2e; /* Metall-Border */
+}
+
+/* Text Content 2/3 */
+.modal-left-content {
+    flex: 2;
+    position: relative;
+    background-color: #0d0e23;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Hintergrundbild nur im Text Content */
+.modal-left-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('rpd.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Text über dem Hintergrund */
+.modal-left-content * {
+    position: relative;
+    z-index: 1;
+}
+
+#modalTextWrapper {
+    position: relative;
+    z-index: 1; /* sicher über dem Hintergrundbild */
+}
+
+/* Image rechts 1/3 */
+.image-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-wrapper img {
     width: 100%;
     height: 100%;
-    max-height: 80vh;
-    border-radius: 12px;
-    object-fit: contain; /* Bild bleibt vollständig sichtbar */
-    padding: 0; /* Padding entfernt */
-    background: none; /* Kein extra Hintergrund */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.2); /* leichter Shadow um das Bild */
+    object-fit: cover;
+}
+/* Responsive */
+@media(max-width:700px){
+    .modal-bottom {
+        flex-direction: column;
+    }
+    .image-wrapper {
+        display: none;
+    }
 }
 
-.modal img {
-    width: 100%;
-    border-radius: 12px;
-    max-height: 300px;
-    object-fit: contain; /* Änderung hier */
+/* Typewriter Animation */
+@keyframes blinkCursor {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: #ff2e2e; }
 }
+
 
 .status {
     display: inline-block;
@@ -471,17 +510,6 @@ h1 {
         font-size: 45vw; /* kleiner auf Smartphones */
     }
 
-    .modal-content > img {
-        width: 100%;
-        height: auto;
-        max-height: 60vh;
-        padding: 0;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
-    }
-    .modal {
-        padding: 15px;
-    }
-
 .game-title {
         font-size: clamp(22px, 6vw, 40px);
     }
@@ -513,24 +541,6 @@ h1 {
         height: auto;
         box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
         margin-top: 15px;
-    }
-.modal-content > div:first-child {
-        padding: 10px;
-    }
-    .image-wrapper img {
-        height: auto;
-        max-height: 60vh;
-    }  max-height: 60vh;
-    }
-    .modal-header {
-        font-size: 1.2rem;
-        justify-content: space-between;
-    }
-    .modal img {
-        max-height: none;      /* Keine maximale Höhe */
-        width: 100%;
-        height: auto;          /* Höhe proportional */
-        object-fit: contain;   /* Bild bleibt vollständig sichtbar */
     }
     .status {
         font-size: 0.85rem;
@@ -685,7 +695,7 @@ body.start .fade-in {
 <div class="game" data-id="re4" data-img="Resident Evil 4.jpg"><img src="Resident Evil 4.jpg"><div class="game-title">Resident Evil 4</div></div>
 <div class="game" data-id="zero" data-img="Resident Evil Zero.jpg"><img src="Resident Evil Zero.jpg"><div class="game-title">Resident Evil Zero</div></div>
 
-<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpeg"><img src="Resident Evil 1 Remake.jpeg"><div class="game-title">Resident Evil 1 Remake</div></div>
+<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.png"><img src="Resident Evil 1 Remake.png"><div class="game-title">Resident Evil 1 Remake</div></div>
 <div class="game" data-id="re2r" data-img="Resident Evil 2 Remake.jpg"><img src="Resident Evil 2 Remake.jpg"><div class="game-title">Resident Evil 2 Remake</div></div>
 <div class="game" data-id="re3r" data-img="Resident Evil 3 Remake.jpg"><img src="Resident Evil 3 Remake.jpg"><div class="game-title">Resident Evil 3 Remake</div></div>
 <div class="game" data-id="re4r" data-img="Resident Evil 4 Remake.png"><img src="Resident Evil 4 Remake.png"><div class="game-title">Resident Evil 4 Remake</div></div>
@@ -715,30 +725,33 @@ body.start .fade-in {
 <!-- ✅ MODAL -->
 <div class="modal-backdrop" id="modal">
     <div class="modal hard-edge">
-        <!-- Oberer Bereich -->
+        <!-- Obere Sektion: Header + GIF -->
         <div class="modal-top">
-            <div class="modal-header-wrapper">
+            <div class="modal-left">
                 <div class="modal-header" id="modalTitle"></div>
-                <div class="modal-gif">
-                    <img id="modalGif" src="" alt="Status GIF">
+            </div>
+            <div class="modal-right-gif">
+                <img id="modalGif" src="" alt="Status GIF">
+            </div>
+        </div>
+
+
+        <!-- Untere Sektion: Content + Bild -->
+        <div class="modal-bottom">
+            <div class="modal-left-content">
+                <div id="modalTextWrapper">
+                    <div id="modalStatus"></div>
+                    <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
                 </div>
             </div>
-        </div>
-
-        <!-- Unterer Bereich -->
-        <div class="modal-bottom">
-            <div class="modal-info">
-                <div id="modalStatus"></div>
-                <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
-            </div>
             <div class="image-wrapper">
-                <img id="modalImage">
+                <img id="modalImage" src="">
             </div>
         </div>
 
-        <span class="modal-close" onclick="closeModal()">✕</span>
-    </div>
+     </div>
 </div>
+
 
 <section id="twitch-stream" style="margin-top:30px; text-align:center;">
   <!-- Live auf Twitch mit Logo rechts -->
@@ -804,9 +817,6 @@ games.forEach(game => {
     }
 });
 
-
-
-
 games.forEach(game => {
     const id = game.dataset.id;
     const state = data[id];
@@ -851,22 +861,56 @@ startOverlay.addEventListener('click', () => {
 });
 
 
-
-
-function typeWriter(element, text, speed = 80) {
-    element.innerHTML = "";
+function typeWriterHTML(element, htmlText, speed = 50, callback) {
+    element.innerHTML = ""; // vorher leeren
     let i = 0;
-    function typing() {
-        if(i < text.length){
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typing, speed);
+
+    // Temporärer Container um HTML zu parsen
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+
+    // Alle Knoten (Text und Tags) nacheinander
+    const nodes = Array.from(tempDiv.childNodes);
+
+    function typeNode(nodeIndex, charIndex) {
+        if (nodeIndex >= nodes.length) {
+            if (callback) callback();
+            return;
+        }
+
+        const node = nodes[nodeIndex];
+
+        if (node.nodeType === Node.TEXT_NODE) {
+            // Text-Knoten
+            element.innerHTML += node.textContent.charAt(charIndex);
+            charIndex++;
+            if (charIndex < node.textContent.length) {
+                setTimeout(() => typeNode(nodeIndex, charIndex), speed);
+            } else {
+                typeNode(nodeIndex + 1, 0);
+            }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // HTML-Tag
+            const tagStart = document.createElement(node.nodeName);
+            // Kopiere Attribute
+            for (let attr of node.attributes) tagStart.setAttribute(attr.name, attr.value);
+            element.appendChild(tagStart);
+
+            // Typing innerhalb des Tags rekursiv
+            const innerText = node.innerHTML;
+            typeWriterHTML(tagStart, innerText, speed, () => typeNode(nodeIndex + 1, 0));
         }
     }
-    typing();
-}
+
+    typeNode(0, 0);
+} 
 
 games.forEach(game => {
+     game.addEventListener("mouseenter", () => {
+        const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
+        sound.volume = 0.5;
+        sound.play();
+    });
     game.addEventListener("click", () => {
         selectSound.currentTime = 0;
         selectSound.play();
@@ -879,36 +923,60 @@ games.forEach(game => {
         const img = game.dataset.img;
         const state = data[id];
 
-        // Typewriter Header
         const modalHeader = document.getElementById("modalTitle");
-        typeWriter(modalHeader, title, 80);
-
-        // GIF je nach Status
         const modalGif = document.getElementById("modalGif");
-        if(state === "done"){
-            modalGif.src = "re-fine.gif";
-        } else {
-            modalGif.src = "re-danger.gif";
-        }
+        const gifContainer = document.querySelector(".modal-right-gif");
+        const modalImage = document.getElementById("modalImage");
 
+        // GIF Quelle setzen
+        modalGif.src = state === "done" ? "re-fine.gif" : "re-danger.gif";
         modalImage.src = img;
-
-        modalStatus.innerHTML = `
-            <span class="status ${state}">
-                ${state === "done" ? "ABGESCHLOSSEN" : "OFFEN"}
-            </span>
-        `;
 
         modal.style.display = "flex";
 
-        if(recordings[id]) {
-            recordingDisplay.innerHTML = `Aufzeichnung: <a href="${recordings[id]}" target="_blank" style="color:#ff2e2e;">Hier klicken</a>`;
-        } else {
-            recordingDisplay.innerHTML = `Noch keine Aufzeichnung verfügbar`;
+        // --- Funktion, um GIF-Höhe auf Header-Höhe inkl. Padding/Margin anzupassen ---
+        // --- Funktion, um GIF-Höhe auf Header-Höhe inkl. Padding/Margin anzupassen ---
+        function adjustGifHeight() {
+            const header = document.getElementById("modalTitle");
+            const gifContainer = document.querySelector(".modal-right-gif");
+            const gifImage = document.getElementById("modalGif");
+
+            if (!header || !gifContainer || !gifImage) return;
+
+            const style = window.getComputedStyle(header);
+
+            const totalHeight = header.offsetHeight
+                + parseFloat(20)
+                + parseFloat(20);
+
+            // GIF-Container auf die volle visuelle Header-Höhe setzen
+            gifContainer.style.height = totalHeight + "px";
+
+            // Bild im Container auf volle Höhe setzen
+            gifImage.style.height = "100%";
+            gifImage.style.width = "auto";
+            gifImage.style.objectFit = "cover";
         }
+
+
+        adjustGifHeight();
+
+        // GIF **sofort nach Öffnen** des Modals anpassen
+        modal.style.display = "flex";
+
+        // kleine Verzögerung, damit Browser rendern kann
+        requestAnimationFrame(() => {
+            adjustGifHeight();
+        });
+
+        // Header Typewriter starten
+        typeWriterHTML(modalHeader, title, 80, () => {
+            // nochmal anpassen nach vollständigem Tippen
+            adjustGifHeight();
+        });
+        window.addEventListener("resize", adjustGifHeight);
     });
 });
-
 // Typwriter-Sound beim Schließen des Modals
 const closeSound = new Audio('resident-evil-typewriter.mp3');
 closeSound.volume = 0.5; // Lautstärke optional
