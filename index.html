@@ -315,6 +315,14 @@ h1 {
     border: 0;
   }
 
+  .modal, 
+.modal * {
+    user-select: none;        /* Text nicht markierbar */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+}
+
 .modal.hard-edge {
     background: #0d0e23;
     border-radius: 0;
@@ -897,7 +905,8 @@ document.addEventListener("keydown", e => {
 
 const typewriterController = {
     timers: [],
-    active: true // Flag, ob Typewriter gerade aktiv ist
+    active: true,
+    currentLines: []
 };
 
 function skipTypewriter() {
@@ -907,9 +916,28 @@ function skipTypewriter() {
     typewriterController.active = false;
 
     // Alles direkt anzeigen
-    const currentLines = recordingDisplay.dataset.lines;
-    if(currentLines) {
-        recordingDisplay.innerHTML = currentLines.join("<br>");
+    if(typewriterController.currentLines.length > 0) {
+        recordingDisplay.innerHTML = typewriterController.currentLines
+            .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
+            .join("<br>");
+    }
+}
+
+modal.addEventListener("click", () => {
+    if(modal.style.display === "flex") skipTypewriter();
+});
+
+function skipTypewriter() {
+    // Timer löschen
+    typewriterController.timers.forEach(t => clearTimeout(t));
+    typewriterController.timers = [];
+    typewriterController.active = false;
+
+    // Alles direkt anzeigen
+    if(typewriterController.currentLines.length > 0) {
+        recordingDisplay.innerHTML = typewriterController.currentLines
+            .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
+            .join("<br>");
     }
 }
 
@@ -1034,6 +1062,7 @@ games.forEach(game => {
 
 
 function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
+    typewriterController.currentLines = lines; // ZEILEN SPEICHERN
     let lineIndex = 0;
 
     // Alte Timer löschen
