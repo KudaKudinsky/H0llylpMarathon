@@ -632,7 +632,10 @@ body.start .fade-in {
   }
 }
 
-
+text tspan {
+  dominant-baseline: middle;
+  alignment-baseline: middle;
+}
 
 .status.done { background: #2ecc71; color: #000; }
 .status.open { background: #555; }
@@ -706,10 +709,10 @@ body.start .fade-in {
   <svg viewBox="0 0 1800 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
     <!-- Haupttext -->
     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7" fill="#f0f0f0" font-size="8vw">
-      <tspan fill="#ff2e2e">H</tspan>ollylp 
-      <tspan fill="#ff2e2e">R</tspan>esident 
-      <tspan fill="#ff2e2e">E</tspan>vil 
-      <tspan fill="#ff2e2e">M</tspan>arathon
+        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">H</tspan>ollylp 
+        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">R</tspan>esident 
+        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">E</tspan>vil 
+        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">M</tspan>arathon
     </text>
   </svg>
 </div>
@@ -897,8 +900,22 @@ const typewriterController = {
     active: true // Flag, ob Typewriter gerade aktiv ist
 };
 
+function skipTypewriter() {
+    // Timer löschen
+    typewriterController.timers.forEach(t => clearTimeout(t));
+    typewriterController.timers = [];
+    typewriterController.active = false;
+
+    // Alles direkt anzeigen
+    const currentLines = recordingDisplay.dataset.lines;
+    if(currentLines) {
+        recordingDisplay.innerHTML = currentLines.join("<br>");
+    }
+}
+
 function typeWriterHTML(element, htmlText, speed = 50, callback) {
     // Alte Timer löschen
+    
     typewriterController.active = true;
     typewriterController.timers.forEach(t => clearTimeout(t));
     typewriterController.timers = [];
@@ -1048,6 +1065,7 @@ function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
 
 </body>
 </html>
+
 
 
 
