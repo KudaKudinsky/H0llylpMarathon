@@ -846,7 +846,7 @@ games.forEach(game => {
 // Overlay starten
 const startOverlay = document.getElementById('startOverlay');
 const introSound = new Audio('resident-evil-intro.mp3');
-introSound.volume = 0.2;
+introSound.volume = 0.15;
 
 startOverlay.addEventListener('click', () => {
     introSound.currentTime = 0;
@@ -869,7 +869,7 @@ startOverlay.addEventListener('click', () => {
 
 // Sound für Modal-Schließen
 const closeSound = new Audio('resident-evil-typewriter.mp3');
-closeSound.volume = 0.1;
+closeSound.volume = 0.05;
 
 function closeModal() {
     modal.style.display = "none";
@@ -954,7 +954,7 @@ function typeWriterHTML(element, htmlText, speed = 50, callback) {
 games.forEach(game => {
     game.addEventListener("mouseenter", () => {
         const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
-        sound.volume = 0.1;
+        sound.volume = 0.05;
         sound.play();
     });
 
@@ -1048,6 +1048,7 @@ function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
 
 </body>
 </html>
+
 
 
 
