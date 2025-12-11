@@ -499,14 +499,6 @@ body.start .fade-in {
 
 <body>
 
-<div id="startOverlay">
-  <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
-    <text x="50%" y="50%" font-family="ResidentEvil7" font-size="12vw" text-anchor="middle" dominant-baseline="middle" fill="#f0f0f0">
-       <tspan fill="#ff2e2e">Z</tspan>u <tspan fill="#ff2e2e">D</tspan>en <tspan fill="#ff2e2e">G</tspan>ames
-    </text>
-  </svg>
-</div>
-
 <div id="top-section">
     <div style="text-align:center; margin-bottom:35px; margin-top:35px" class="fade-in">
       <svg viewBox="0 0 1800 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
@@ -552,9 +544,8 @@ body.start .fade-in {
         <div class="game" data-id="gaiden" data-img="Resident Evil Gaiden.webp"><img src="Resident Evil Gaiden.webp"><div class="game-title">Resident Evil Gaiden</div></div>
         
     </div>
-</div>
-    
-<div class="modal-backdrop" id="modal">
+
+    <div class="modal-backdrop" id="modal">
     <div class="modal">
         <div class="modal-header">
             <span id="modalTitle"></span>
@@ -577,8 +568,17 @@ body.start .fade-in {
 
 
     </div>
+    <div id="startOverlay">
+      <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
+          <text x="50%" y="50%" font-family="ResidentEvil7" font-size="12vw" text-anchor="middle" dominant-baseline="middle" fill="#f0f0f0">
+            <tspan fill="#ff2e2e">Z</tspan>u <tspan fill="#ff2e2e">D</tspan>en <tspan fill="#ff2e2e">G</tspan>ames
+          </text>
+      </svg>
+    </div>
 </div>
 
+</div>
+    
 <section id="twitch-stream" style="margin-top:30px; text-align:center;">
   <!-- Live auf Twitch mit Logo rechts -->
   <a href="https://www.twitch.tv/h0llylp" target="_blank" 
@@ -763,6 +763,7 @@ document.addEventListener("keydown", e => {
 
 </body>
 </html>
+
 
 
 
