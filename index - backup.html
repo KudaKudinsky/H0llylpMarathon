@@ -136,7 +136,7 @@ h1 {
 .game-title {
     font-family: "Compacta", sans-serif;
     color: rgba(230, 230, 210, 1);
-    font-size: clamp(18px, 5vw, 36px); /* etwas kleiner für lange Titel */
+    font-size: clamp(16px, 2vw, 24px);   /* etwas kleiner für lange Titel */
     text-align: center;
     line-height: 1.2;
     letter-spacing: 0.5px;
@@ -367,18 +367,21 @@ h1 {
     to { opacity: 1; transform: scale(1); }
 }
 
-
-@media(max-width: 1400px){
- .fade-in svg text {
-        font-size: 20vw; /* größere Schrift auf kleinen Handys */
-    }
-}
-
 /* MOBILE */
 @media(max-width: 700px){
     
-    #startOverlay svg text {
-        font-size: 45vw; /* kleiner auf Smartphones */
+	#startOverlay text {
+        font-size: 6vw !important; /* deutlich größer auf Mobilgeräten */
+    }
+    #startOverlay tspan {
+        font-size: 6vw !important;
+    }
+
+.fade-in text {
+        font-size: 7vw !important; /* noch größer für Sichtbarkeit */
+    }
+    .fade-in tspan {
+        font-size: 7vw !important;
     }
 
     .modal-content > img {
@@ -393,19 +396,16 @@ h1 {
     }
 
 .game-title {
-        font-size: clamp(22px, 6vw, 40px);
+        font-size: 22px !important;  /* vorher 18px */
+        line-height: 1.4;
     }
 
 .grid {
         padding: 0 15px; /* etwas enger auf kleinen Geräten */
     }
 
-    h1 svg text {
-        font-size: 60vw !important;
-    }
-
-.fade-in svg text {
-        font-size: 35vw; /* größere Schrift auf kleinen Handys */
+   h1 {
+        font-size: clamp(2rem, 8vw, 3.5rem);
     }
 
 #twitch-stream {
@@ -501,17 +501,19 @@ body.start .fade-in {
 <body>
 
 <div id="startOverlay">
-  <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
-    <text x="50%" y="50%" font-family="ResidentEvil7" font-size="12vw" text-anchor="middle" dominant-baseline="middle" fill="#f0f0f0">
-       <tspan fill="#ff2e2e">Z</tspan>u <tspan fill="#ff2e2e">D</tspan>en <tspan fill="#ff2e2e">G</tspan>ames
+  <svg viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
+    <text x="50%" y="50%" font-family="ResidentEvil7" font-size="120" fill="#f0f0f0"
+          text-anchor="middle" dominant-baseline="middle">
+      <tspan fill="#ff2e2e">Z</tspan>u den Games
     </text>
   </svg>
 </div>
 
 <div style="text-align:center; margin-bottom:35px;" class="fade-in">
-  <svg viewBox="0 0 1800 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
+  <svg viewBox="0 0 1200 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
     <!-- Haupttext -->
-    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7" fill="#f0f0f0" font-size="8vw">
+    <text x="50%" y="50%" font-family="ResidentEvil7" font-size="120" fill="#f0f0f0"
+          text-anchor="middle" dominant-baseline="middle">
       <tspan fill="#ff2e2e">H</tspan>ollylp 
       <tspan fill="#ff2e2e">R</tspan>esident 
       <tspan fill="#ff2e2e">E</tspan>vil 
@@ -736,17 +738,10 @@ games.forEach(game => {
     });
 });
 
-// Typwriter-Sound beim Schließen des Modals
-const closeSound = new Audio('resident-evil-typewriter.mp3');
-closeSound.volume = 0.5; // Lautstärke optional
-
+// Modal schließen
 function closeModal(){
     modal.style.display = "none";
     games.forEach(g => g.classList.remove("active"));
-
-    // Sound abspielen
-    closeSound.currentTime = 0; // von Anfang starten
-    closeSound.play();
 }
 
 // Klick auf Hintergrund schließt Modal
@@ -758,7 +753,6 @@ modal.addEventListener("click", e => {
 document.addEventListener("keydown", e => {
     if(e.key === "Escape") closeModal();
 });
-
 
 </script>
 
