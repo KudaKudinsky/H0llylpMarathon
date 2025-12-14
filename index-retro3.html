@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H0llyLP Resident Evil Marathon - Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background: #000;
+    color: #0f0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.terminal-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    position: relative;
+}
+
+/* CRT Effect */
+.terminal-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 0, 0.03) 0px,
+        rgba(0, 255, 0, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Terminal Header */
+.terminal-header {
+    background: #0a0a0a;
+    border-bottom: 2px solid #0f0;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 255, 0, 0.5);
+}
+
+.terminal-title {
+    font-size: 1.2rem;
+    color: #0f0;
+    text-shadow: 0 0 10px #0f0;
+    letter-spacing: 2px;
+}
+
+.terminal-status {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Main Content Area */
+.terminal-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: #0a0a0a;
+    border-right: 2px solid #0f0;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.sidebar-section {
+    border-bottom: 1px solid #0f0;
+    padding: 15px;
+}
+
+.sidebar-section h3 {
+    color: #0f0;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.game-list-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-list-item:hover {
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.game-list-item.active {
+    background: rgba(0, 255, 0, 0.2);
+    border-left-color: #0f0;
+    box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.game-list-item.completed {
+    color: #0f0;
+}
+
+.game-list-item.completed:hover {
+    background: rgba(0, 255, 0, 0.1);
+    border-left-color: #0f0;
+}
+
+.game-list-item.pending {
+    color: #f00;
+}
+
+.game-list-item.pending:hover {
+    background: rgba(255, 0, 0, 0.1);
+    border-left-color: #f00;
+}
+
+.game-status-icon {
+    font-size: 0.7rem;
+}
+
+/* Main Display */
+.main-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.display-header {
+    background: #0a0a0a;
+    padding: 15px 20px;
+    border-bottom: 1px solid #0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.display-title {
+    font-size: 1.1rem;
+    color: #0f0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.display-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.terminal-btn {
+    background: transparent;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 5px 15px;
+    font-family: 'Share Tech Mono', monospace;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.8rem;
+}
+
+.terminal-btn:hover {
+    background: rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.display-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Game Grid with Images */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    background: rgba(0, 20, 0, 0.8);
+    border: 2px solid #0f0;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+/* Pending Cards mit rotem Theme */
+.game-card.pending {
+    background: rgba(20, 0, 0, 0.8);
+    border-color: #f00;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.game-card.pending::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+}
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 30px rgba(0, 255, 0, 0.6);
+    border-color: #0ff;
+}
+
+.game-card.pending:hover {
+    box-shadow: 0 5px 30px rgba(255, 0, 0, 0.6);
+    border-color: #f00;
+}
+
+.game-card-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 2px solid #0f0;
+    filter: brightness(0.7) contrast(1.2);
+    transition: filter 0.3s;
+}
+
+.game-card.pending .game-card-image {
+    border-bottom-color: #f00;
+}
+
+.game-card:hover .game-card-image {
+    filter: brightness(0.9) contrast(1.3);
+}
+
+.game-card-content {
+    padding: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.game-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.game-number {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    color: #0f0;
+}
+
+.game-card.pending .game-number {
+    color: #f00;
+}
+
+.game-card-title {
+    font-size: 0.95rem;
+    color: #0f0;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px #0f0;
+    line-height: 1.3;
+}
+
+.game-card.pending .game-card-title {
+    color: #f00;
+    text-shadow: 0 0 5px #f00;
+}
+
+.game-card-status {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border: 1px solid;
+    display: inline-block;
+}
+
+.game-card-status.completed {
+    color: #0f0;
+    border-color: #0f0;
+    background: rgba(0, 255, 0, 0.2);
+}
+
+.game-card-status.pending {
+    color: #f00;
+    border-color: #f00;
+    background: rgba(255, 0, 0, 0.2);
+}
+
+/* Detail View with Image */
+.detail-view {
+    display: none;
+    animation: slideIn 0.3s ease;
+}
+
+.detail-view.active {
+    display: flex;
+    gap: 30px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.detail-left {
+    flex: 1;
+    min-width: 0;
+}
+
+.detail-right {
+    width: 350px;
+    flex-shrink: 0;
+}
+
+.detail-image-container {
+    border: 2px solid #0f0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    position: sticky;
+    top: 0;
+}
+
+.detail-image-container.pending {
+    border-color: #f00;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.detail-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0.8) contrast(1.2);
+}
+
+.detail-header {
+    border-bottom: 2px solid #0f0;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.detail-header.pending {
+    border-bottom-color: #f00;
+}
+
+.detail-header h2 {
+    font-size: 1.5rem;
+    color: #0f0;
+    text-shadow: 0 0 10px #0f0;
+    margin-bottom: 10px;
+}
+
+.detail-header.pending h2 {
+    color: #f00;
+    text-shadow: 0 0 10px #f00;
+}
+
+.detail-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.detail-body {
+    line-height: 1.8;
+}
+
+.detail-section {
+    margin-bottom: 25px;
+}
+
+.detail-section h3 {
+    color: #0f0;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.detail-section.pending h3 {
+    color: #f00;
+}
+
+.recording-link {
+    display: inline-block;
+    color: #0f0;
+    text-decoration: none;
+    border: 1px solid #0f0;
+    padding: 8px 15px;
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+
+.recording-link:hover {
+    background: rgba(0, 255, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Terminal Footer */
+.terminal-footer {
+    background: #0a0a0a;
+    border-top: 2px solid #0f0;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 -2px 10px rgba(0, 255, 0, 0.3);
+}
+
+.footer-info {
+    display: flex;
+    gap: 20px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+    .detail-view.active {
+        flex-direction: column;
+    }
+    
+    .detail-right {
+        width: 100%;
+    }
+    
+    .detail-image-container {
+        position: relative;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .game-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .terminal-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .display-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="terminal-container">
+    <!-- Header -->
+    <div class="terminal-header">
+        <div class="terminal-title">
+            <span style="color: #f00;">UMBRELLA CORP</span> // MISSION DATABASE v2.3
+        </div>
+        <div class="terminal-status">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>SYSTEM ONLINE</span>
+            </div>
+            <div class="status-item">
+                <span>USER: H0LLYLP</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Body -->
+    <div class="terminal-body">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>▶ Missionen</h3>
+                <div id="gameList"></div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>▶ Statistik</h3>
+                <div style="font-size: 0.8rem; line-height: 1.6;">
+                    <div>Abgeschlossen: <span id="completedCount" style="color: #0f0;">0</span></div>
+                    <div>Ausstehend: <span id="pendingCount" style="color: #f00;">0</span></div>
+                    <div>Gesamt: <span id="totalCount">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Display -->
+        <div class="main-display">
+            <div class="display-header">
+                <div class="display-title">Mission Overview</div>
+                <div class="display-controls">
+                    <button class="terminal-btn" onclick="showGrid()">GRID</button>
+                    <button class="terminal-btn" onclick="window.open('https://www.twitch.tv/h0llylp', '_blank')">TWITCH</button>
+                </div>
+            </div>
+            
+            <div class="display-content">
+                <!-- Grid View -->
+                <div id="gridView" class="game-grid"></div>
+                
+                <!-- Detail View -->
+                <div id="detailView" class="detail-view"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="terminal-footer">
+        <div class="footer-info">
+            <span>SYSTEM: ACTIVE</span>
+            <span>PROTOCOL: RE-MARATHON</span>
+        </div>
+        <div>
+            <span>LAST UPDATE: <span id="currentTime"></span></span>
+        </div>
+    </div>
+</div>
+
+<script>
+const games = {
+    re1: { title: "Resident Evil 1", status: "done", recording: "https://www.twitch.tv/videos/2638659125", image: "Resident Evil 1.jpg" },
+    re2: { title: "Resident Evil 2", status: "done", recording: "https://www.twitch.tv/videos/2639472867", image: "Resident Evil 2.png" },
+    re3: { title: "Resident Evil 3", status: "done", recording: "https://www.twitch.tv/videos/2640291764?t=0h0m1s", image: "Resident Evil 3.jpg" },
+    re4: { title: "Resident Evil 4", status: "open", image: "Resident Evil 4.jpg" },
+    zero: { title: "Resident Evil Zero", status: "open", image: "Resident Evil Zero.jpg" },
+    re1r: { title: "Resident Evil 1 Remake", status: "open", image: "Resident Evil 1 Remake.jpg" },
+    re2r: { title: "Resident Evil 2 Remake", status: "open", image: "Resident Evil 2 Remake.jpg" },
+    re3r: { title: "Resident Evil 3 Remake", status: "open", image: "Resident Evil 3 Remake.jpg" },
+    re4r: { title: "Resident Evil 4 Remake", status: "open", image: "Resident Evil 4 Remake.png" },
+    re5: { title: "Resident Evil 5", status: "open", image: "Reisdent Evil 5.jfif" },
+    re6: { title: "Resident Evil 6", status: "open", image: "Resident Evil 6.png" },
+    re7: { title: "Resident Evil 7", status: "open", image: "Resident Evil 7.jpg" },
+    re8: { title: "Resident Evil Village", status: "open", image: "Resident Evil Village.jpg" },
+    cv: { title: "Resident Evil Code: Veronica", status: "open", image: "Resident Evil Code Veronica.jpg" },
+    rev1: { title: "Resident Evil Revelations", status: "open", image: "Resident Evil Revelation 1.png" },
+    rev2: { title: "Resident Evil Revelations 2", status: "open", image: "Resident Evil Revelations 2.jpg" },
+    dead: { title: "Resident Evil Dead Aim", status: "open", image: "Resident Evil Dead Aim.webp" },
+    ob1: { title: "Resident Evil Outbreak", status: "open", image: "Resident Evil Outbreak 1.jpg" },
+    ob2: { title: "Resident Evil Outbreak File 2", status: "open", image: "Resident Evil Outbreak 2.jpg" },
+    survivor: { title: "Resident Evil Survivor", status: "done", recording: "https://www.twitch.tv/videos/2640291764?t=5h4m2s", image: "Reident Evil Survivor.jfif" },
+    darkside: { title: "Resident Evil The Darkside Chronicles", status: "open", image: "Resident Evil The Darkside Chronicles.jpg" },
+    gaiden: { title: "Resident Evil Gaiden", status: "open", image: "Resident Evil Gaiden.webp" }
+};
+
+let currentView = 'grid';
+
+function init() {
+    renderSidebar();
+    renderGrid();
+    updateStats();
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+
+function renderSidebar() {
+    const gameList = document.getElementById('gameList');
+    gameList.innerHTML = Object.entries(games).map(([id, game], index) => `
+        <div class="game-list-item ${game.status === 'done' ? 'completed' : 'pending'}" 
+             onclick="showDetail('${id}')">
+            <span>${String(index + 1).padStart(2, '0')}. ${game.title}</span>
+            <span class="game-status-icon">${game.status === 'done' ? '✓' : '○'}</span>
+        </div>
+    `).join('');
+}
+
+function renderGrid() {
+    const gridView = document.getElementById('gridView');
+    gridView.innerHTML = Object.entries(games).map(([id, game], index) => `
+        <div class="game-card ${game.status === 'done' ? 'completed' : 'pending'}" onclick="showDetail('${id}')">
+            <img src="${game.image}" alt="${game.title}" class="game-card-image" onerror="this.style.display='none'">
+            <div class="game-card-content">
+                <div class="game-card-header">
+                    <span class="game-number">#${String(index + 1).padStart(3, '0')}</span>
+                </div>
+                <div class="game-card-title">${game.title}</div>
+                <div class="game-card-status ${game.status === 'done' ? 'completed' : 'pending'}">
+                    ${game.status === 'done' ? 'COMPLETED' : 'PENDING'}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function showDetail(gameId) {
+    const game = games[gameId];
+    const detailView = document.getElementById('detailView');
+    const gridView = document.getElementById('gridView');
+    const isPending = game.status !== 'done';
+    
+    gridView.style.display = 'none';
+    detailView.classList.add('active');
+    
+    detailView.innerHTML = `
+        <div class="detail-left">
+            <div class="detail-header ${isPending ? 'pending' : ''}">
+                <h2>${game.title}</h2>
+                <div class="detail-meta">
+                    <span>STATUS: <span style="color: ${game.status === 'done' ? '#0f0' : '#f00'}">${game.status === 'done' ? 'COMPLETED' : 'PENDING'}</span></span>
+                    <span>PROTOCOL: RE-MARATHON</span>
+                    <span>ID: ${gameId.toUpperCase()}</span>
+                </div>
+            </div>
+            
+            <div class="detail-body">
+                <div class="detail-section ${isPending ? 'pending' : ''}">
+                    <h3>// Mission Details</h3>
+                    <p>Zugriffsebene: AUTORISIERT</p>
+                    <p>Operator: H0LLYLP</p>
+                    <p>Mission: ${game.title}</p>
+                    <p>Status: ${game.status === 'done' ? 'Erfolgreich abgeschlossen' : 'Ausstehend'}</p>
+                </div>
+                
+                ${game.recording ? `
+                    <div class="detail-section">
+                        <h3>// Aufzeichnung</h3>
+                        <p>Mission wurde dokumentiert und archiviert.</p>
+                        <a href="${game.recording}" target="_blank" class="recording-link">
+                            ▶ ZUR AUFZEICHNUNG
+                        </a>
+                    </div>
+                ` : ''}
+                
+                <div class="detail-section ${isPending ? 'pending' : ''}">
+                    <h3>// System Info</h3>
+                    <p>Datenbank-ID: ${gameId.toUpperCase()}</p>
+                    <p>Klassifizierung: T-Virus Protocol</p>
+                    <p>Sicherheitslevel: ALPHA</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="detail-right">
+            <div class="detail-image-container ${isPending ? 'pending' : ''}">
+                <img src="${game.image}" alt="${game.title}" class="detail-image" onerror="this.parentElement.style.display='none'">
+            </div>
+        </div>
+    `;
+    
+    // Highlight active item in sidebar
+    document.querySelectorAll('.game-list-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    const sidebarItems = document.querySelectorAll('.game-list-item');
+    const index = Object.keys(games).indexOf(gameId);
+    if (sidebarItems[index]) {
+        sidebarItems[index].classList.add('active');
+    }
+}
+
+function showGrid() {
+    const detailView = document.getElementById('detailView');
+    const gridView = document.getElementById('gridView');
+    
+    detailView.classList.remove('active');
+    gridView.style.display = 'grid';
+    
+    document.querySelectorAll('.game-list-item').forEach(item => {
+        item.classList.remove('active');
+    });
+}
+
+function updateStats() {
+    const completed = Object.values(games).filter(g => g.status === 'done').length;
+    const total = Object.keys(games).length;
+    const pending = total - completed;
+    
+    document.getElementById('completedCount').textContent = completed;
+    document.getElementById('pendingCount').textContent = pending;
+    document.getElementById('totalCount').textContent = total;
+}
+
+function updateTime() {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('currentTime').textContent = timeStr;
+}
+
+init();
+</script>
+
+</body>
+</html>
