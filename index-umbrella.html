@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UMBRELLA CORPORATION - Classified Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier Prime', monospace;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+/* Animated Background */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse at center, transparent 0%, #000 70%),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="10" fill="%23ff0000" opacity="0.03">⚠</text></svg>');
+    background-size: cover, 50px 50px;
+    opacity: 0.1;
+    animation: bgScroll 20s linear infinite;
+}
+
+@keyframes bgScroll {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 0 0, 50px 50px; }
+}
+
+.app-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.95) 70%);
+}
+
+/* Red Alert Border */
+.alert-border {
+    position: fixed;
+    inset: 0;
+    border: 8px solid #8b0000;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: inset 0 0 40px rgba(139, 0, 0, 0.5);
+}
+
+/* Header */
+.header {
+    background: linear-gradient(180deg, #1a0000 0%, #000 100%);
+    border-bottom: 3px solid #8b0000;
+    padding: 20px 30px;
+    position: relative;
+    box-shadow: 0 5px 30px rgba(139, 0, 0, 0.5);
+}
+
+.header::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #ff0000 20%, 
+        #ff0000 80%, 
+        transparent 100%);
+    animation: scanLine 3s linear infinite;
+}
+
+@keyframes scanLine {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.umbrella-icon {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #ff0000 0%, #8b0000 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    animation: pulse 2s infinite;
+}
+
+
+.umbrella-icon img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.6); }
+    50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+    letter-spacing: 3px;
+}
+
+.tagline {
+    font-size: 0.7rem;
+    color: #888;
+    letter-spacing: 2px;
+}
+
+.header-status {
+    text-align: right;
+}
+
+.status-label {
+    font-size: 0.7rem;
+    color: #ff0000;
+    margin-bottom: 5px;
+}
+
+.user-info {
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.classification {
+    background: #8b0000;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 320px;
+    background: rgba(10, 0, 0, 0.9);
+    border-right: 2px solid #8b0000;
+    overflow-y: auto;
+    box-shadow: 5px 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.sidebar-header {
+    background: #1a0000;
+    padding: 15px;
+    border-bottom: 2px solid #8b0000;
+    font-size: 0.9rem;
+    color: #ff0000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.file-list {
+    padding: 10px;
+}
+
+.file-item {
+    background: linear-gradient(90deg, rgba(139, 0, 0, 0.2) 0%, transparent 100%);
+    border-left: 3px solid transparent;
+    padding: 15px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.file-item.done {
+    background: linear-gradient(90deg, rgba(51, 139, 0, 0.2) 0%, transparent 100%) !important;
+}
+
+.file-item::before {
+    content: "📁";
+    position: absolute;
+    left: 15px;
+    opacity: 0.5;
+}
+
+.file-item:hover {
+    background: linear-gradient(90deg, rgba(139, 0, 0, 0.4) 0%, rgba(139, 0, 0, 0.1) 100%);
+    border-left-color: #ff0000;
+    transform: translateX(5px);
+}
+
+.file-item.active {
+    background: linear-gradient(90deg, rgba(255, 0, 0, 0.3) 0%, rgba(139, 0, 0, 0.2) 100%);
+    border-left-color: #ff0000;
+    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.file-number {
+    font-size: 0.7rem;
+    color: #888;
+    display: block;
+    margin-bottom: 5px;
+    padding-left: 30px;
+}
+
+.file-title {
+    font-size: 0.85rem;
+    color: #fff;
+    margin-bottom: 8px;
+    padding-left: 30px;
+}
+
+.file-status {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.file-status.completed {
+    background: #8b0000;
+    color: #fff;
+    border: 1px solid #ff0000;
+}
+
+.file-status.pending {
+    background: #1a1a1a;
+    color: #666;
+    border: 1px solid #333;
+}
+
+/* Display Area */
+.display-area {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.85);
+    overflow-y: auto;
+    position: relative;
+}
+
+.welcome-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+}
+
+.warning-box {
+    border: 3px solid #ff0000;
+    padding: 40px;
+    max-width: 600px;
+    background: rgba(139, 0, 0, 0.1);
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.warning-icon {
+    font-size: 4rem;
+    color: #ff0000;
+    margin-bottom: 20px;
+    animation: warningBlink 1.5s infinite;
+}
+
+@keyframes warningBlink {
+    0%, 49%, 100% { opacity: 1; }
+    50%, 99% { opacity: 0.3; }
+}
+
+.warning-title {
+    font-size: 1.8rem;
+    color: #ff0000;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.warning-text {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.access-code {
+    font-size: 0.8rem;
+    color: #ff0000;
+    font-family: 'Courier Prime', monospace;
+    letter-spacing: 2px;
+}
+
+/* Detail View */
+.detail-view {
+    display: none;
+    padding: 40px;
+}
+
+.detail-view.active {
+    display: block;
+    animation: glitchIn 0.5s;
+}
+
+@keyframes glitchIn {
+    0% { opacity: 0; transform: translateX(-10px); }
+    20% { opacity: 0.3; transform: translateX(5px); }
+    40% { opacity: 0.6; transform: translateX(-3px); }
+    60% { opacity: 0.8; transform: translateX(2px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.detail-header {
+    border-bottom: 3px solid #8b0000;
+    padding-bottom: 25px;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.detail-header::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 200px;
+    height: 3px;
+    background: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+.detail-title {
+    font-size: 2rem;
+    color: #ff0000;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.detail-meta {
+    display: flex;
+    gap: 25px;
+    font-size: 0.8rem;
+    color: #888;
+    flex-wrap: wrap;
+}
+
+.detail-meta span {
+    padding: 5px 10px;
+    background: rgba(139, 0, 0, 0.2);
+    border: 1px solid #8b0000;
+}
+
+.detail-content {
+    display: flex;
+    gap: 40px;
+}
+
+.detail-left {
+    flex: 1;
+}
+
+.detail-right {
+    width: 400px;
+    flex-shrink: 0;
+}
+
+.detail-image-box {
+    border: 3px solid #8b0000;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+    position: sticky;
+    top: 20px;
+}
+
+.detail-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0.8) contrast(1.3) saturate(0.7);
+}
+
+.info-section {
+    background: rgba(139, 0, 0, 0.1);
+    border-left: 3px solid #8b0000;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.info-section h3 {
+    color: #ff0000;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.info-section p {
+    color: #ccc;
+    line-height: 1.8;
+    font-size: 0.9rem;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.data-item {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+.data-label {
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.data-value {
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.access-button {
+    background: linear-gradient(180deg, #8b0000 0%, #5a0000 100%);
+    border: 2px solid #ff0000;
+    color: #fff;
+    padding: 15px 30px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 20px rgba(139, 0, 0, 0.5);
+    margin-top: 20px;
+}
+
+.access-button:hover {
+    background: linear-gradient(180deg, #ff0000 0%, #8b0000 100%);
+    box-shadow: 0 5px 30px rgba(255, 0, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+    background: #000;
+    border-top: 2px solid #8b0000;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.footer-left {
+    display: flex;
+    gap: 20px;
+}
+
+.biohazard {
+    color: #ff0000;
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #8b0000;
+    border: 2px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff0000;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .detail-content {
+        flex-direction: column;
+    }
+    
+    .detail-right {
+        width: 100%;
+    }
+    
+    .detail-image-box {
+        position: relative;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        max-height: 300px;
+        border-right: none;
+        border-bottom: 2px solid #8b0000;
+    }
+    
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .header-top {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .company-name {
+        font-size: 1.2rem;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="alert-border"></div>
+
+<div class="app-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top">
+            <div class="logo">
+                <div class="umbrella-icon">
+                    <img src="umbrella.png" alt="Umbrella Logo">
+                </div>
+                <div class="logo-text">
+                    <div class="company-name">UMBRELLA CORPORATION</div>
+                    <div class="tagline">PRESERVING THE TRUTH</div>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-label">AUTHORIZED USER</div>
+                <div class="user-info">AGENT: H0LLYLP</div>
+            </div>
+        </div>
+        <div class="classification">
+            ⚠ TOP SECRET - LEVEL 5 CLEARANCE REQUIRED ⚠
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                📂 MISSION FILES
+            </div>
+            <div class="file-list" id="fileList"></div>
+        </div>
+
+        <!-- Display Area -->
+        <div class="display-area">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen" class="welcome-container">
+                <div class="warning-box">
+                    <div class="warning-icon">⚠</div>
+                    <div class="warning-title">CLASSIFIED DATABASE</div>
+                    <div class="warning-text">
+                        You are accessing Umbrella Corporation's confidential research archives.
+                        All activities are monitored and logged.
+                        <br><br>
+                        Select a mission file from the sidebar to continue.
+                    </div>
+                    <div class="access-code">
+                        ACCESS CODE: RE-MARATHON-2025
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail View -->
+            <div id="detailView" class="detail-view"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-left">
+            <span>UMBRELLA CORP © 2025</span>
+            <span>SYSTEM STATUS: ACTIVE</span>
+            <span>SECURITY LEVEL: <span style="color: #ff0000;">MAXIMUM</span></span>
+        </div>
+        <div>
+            <span class="biohazard">☣</span>
+            COMPLETED: <span id="completedCount">0</span> / <span id="totalCount">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+const games = {
+    re1: { title: "Resident Evil 1", status: "done", recording: "https://www.twitch.tv/videos/2638659125", image: "Resident Evil 1.jpg" },
+    re2: { title: "Resident Evil 2", status: "done", recording: "https://www.twitch.tv/videos/2639472867", image: "Resident Evil 2.png" },
+    re3: { title: "Resident Evil 3", status: "done", recording: "https://www.twitch.tv/videos/2640291764?t=0h0m1s", image: "Resident Evil 3.jpg" },
+    re4: { title: "Resident Evil 4", status: "open", image: "Resident Evil 4.jpg" },
+    zero: { title: "Resident Evil Zero", status: "open", image: "Resident Evil Zero.jpg" },
+    re1r: { title: "Resident Evil 1 Remake", status: "open", image: "Resident Evil 1 Remake.jpg" },
+    re2r: { title: "Resident Evil 2 Remake", status: "open", image: "Resident Evil 2 Remake.jpg" },
+    re3r: { title: "Resident Evil 3 Remake", status: "open", image: "Resident Evil 3 Remake.jpg" },
+    re4r: { title: "Resident Evil 4 Remake", status: "open", image: "Resident Evil 4 Remake.png" },
+    re5: { title: "Resident Evil 5", status: "open", image: "Reisdent Evil 5.jfif" },
+    re6: { title: "Resident Evil 6", status: "open", image: "Resident Evil 6.png" },
+    re7: { title: "Resident Evil 7", status: "open", image: "Resident Evil 7.jpg" },
+    re8: { title: "Resident Evil Village", status: "open", image: "Resident Evil Village.jpg" },
+    cv: { title: "Resident Evil Code: Veronica", status: "open", image: "Resident Evil Code Veronica.jpg" },
+    rev1: { title: "Resident Evil Revelations", status: "open", image: "Resident Evil Revelation 1.png" },
+    rev2: { title: "Resident Evil Revelations 2", status: "open", image: "Resident Evil Revelations 2.jpg" },
+    dead: { title: "Resident Evil Dead Aim", status: "open", image: "Resident Evil Dead Aim.webp" },
+    ob1: { title: "Resident Evil Outbreak", status: "open", image: "Resident Evil Outbreak 1.jpg" },
+    ob2: { title: "Resident Evil Outbreak File 2", status: "open", image: "Resident Evil Outbreak 2.jpg" },
+    survivor: { title: "Resident Evil Survivor", status: "done", recording: "https://www.twitch.tv/videos/2640291764?t=5h4m2s", image: "Reident Evil Survivor.jfif" },
+    darkside: { title: "Resident Evil The Darkside Chronicles", status: "open", image: "Resident Evil The Darkside Chronicles.jpg" },
+    gaiden: { title: "Resident Evil Gaiden", status: "open", image: "Resident Evil Gaiden.webp" }
+};
+
+function init() {
+    renderFileList();
+    updateStats();
+}
+
+function renderFileList() {
+    const fileList = document.getElementById('fileList');
+    fileList.innerHTML = Object.entries(games).map(([id, game], index) => `
+        <div class="file-item ${game.status === 'done' ? 'done' : ''}" onclick="openFile('${id}')">
+            <span class="file-number">FILE #${String(index + 1).padStart(3, '0')}</span>
+            <div class="file-title">${game.title}</div>
+            <span class="file-status ${game.status === 'done' ? 'completed' : 'pending'}">
+                ${game.status === 'done' ? 'TERMINATED' : 'ACTIVE'}
+            </span>
+        </div>
+    `).join('');
+}
+
+function openFile(gameId) {
+    const game = games[gameId];
+    
+    // Highlight selected
+    document.querySelectorAll('.file-item').forEach(item => item.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    // Hide welcome, show details
+    document.getElementById('welcomeScreen').style.display = 'none';
+    const detailView = document.getElementById('detailView');
+    detailView.classList.add('active');
+    
+    const fileNumber = Object.keys(games).indexOf(gameId) + 1;
+    
+    detailView.innerHTML = `
+        <div class="detail-header">
+            <div class="detail-title">${game.title}</div>
+            <div class="detail-meta">
+                <span>FILE: #${String(fileNumber).padStart(3, '0')}</span>
+                <span>STATUS: ${game.status === 'done' ? 'TERMINATED' : 'ACTIVE'}</span>
+                <span>CLEARANCE: LEVEL 5</span>
+                <span>AGENT: H0LLYLP</span>
+            </div>
+        </div>
+        
+        <div class="detail-content">
+            <div class="detail-left">
+                <div class="info-section">
+                    <h3>☣ MISSION BRIEFING</h3>
+                    <p>
+                        <strong>OPERATION:</strong> ${game.title}<br><br>
+                        <strong>OBJECTIVE:</strong> Complete assigned mission protocols and document all activities for corporate review.<br><br>
+                        <strong>STATUS:</strong> ${game.status === 'done' ? 'Mission has been successfully terminated. All objectives completed.' : 'Mission is currently active. Awaiting completion.'}<br><br>
+                        <strong>ASSIGNED AGENT:</strong> H0LLYLP (Clearance Level: 5)
+                    </p>
+                </div>
+                
+                <div class="info-section">
+                    <h3>📊 MISSION DATA</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">FILE ID</div>
+                            <div class="data-value">${gameId.toUpperCase()}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">CLASSIFICATION</div>
+                            <div class="data-value">TOP SECRET</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">PROTOCOL</div>
+                            <div class="data-value">T-VIRUS</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">THREAT LEVEL</div>
+                            <div class="data-value" style="color: #ff0000;">EXTREME</div>
+                        </div>
+                    </div>
+                </div>
+                
+                ${game.recording ? `
+                    <div class="info-section">
+                        <h3>📹 MISSION RECORDING</h3>
+                        <p>
+                            Mission footage has been archived and is available for review.
+                            Access requires Level 5 clearance.
+                        </p>
+                        <button class="access-button" onclick="window.open('${game.recording}', '_blank')">
+                            ▶ ACCESS RECORDING
+                        </button>
+                    </div>
+                ` : `
+                    <div class="info-section">
+                        <h3>📹 MISSION RECORDING</h3>
+                        <p style="color: #888;">
+                            No recording available. Mission must be completed before footage can be archived.
+                        </p>
+                    </div>
+                `}
+                
+                <button class="access-button" onclick="window.open('https://www.twitch.tv/h0llylp', '_blank')" style="background: linear-gradient(180deg, #1a0033 0%, #0d001a 100%); border-color: #9146ff;">
+                    🔴 WATCH LIVE STREAM
+                </button>
+            </div>
+            
+            <div class="detail-right">
+                <div class="detail-image-box">
+                    <img src="${game.image}" alt="${game.title}" class="detail-image" onerror="this.parentElement.style.display='none'">
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function updateStats() {
+    const completed = Object.values(games).filter(g => g.status === 'done').length;
+    const total = Object.keys(games).length;
+    
+    document.getElementById('completedCount').textContent = completed;
+    document.getElementById('totalCount').textContent = total;
+}
+
+init();
+</script>
+
+</body>
+</html>
