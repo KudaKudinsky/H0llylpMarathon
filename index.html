@@ -63,7 +63,7 @@ h1 {
 
 .red-letter {
     color: #ff2e2e;
-    display: inline-block;  /* verhindert unerwünschten Abstand */
+    display: inline-block;  /* verhindert unerwÃ¼nschten Abstand */
     margin: 0;              /* reduziert Abstand zu den folgenden Buchstaben */
 }
 
@@ -87,14 +87,16 @@ h1 {
 .game {
     opacity: 0;
     transform: translateY(20px);
-     transition: transform 0.25s ease, 
-                box-shadow 0.4s ease, /* langsamer, smoother */
+    transition: transform 0.25s ease, 
+                box-shadow 0.4s ease,
                 border-color 0.3s ease;
-    background-color: #080152;
-    border-radius: 14px;
+    background-color: #c0c0c0;
+    border-radius: 0;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 2px solid;
+    border-color: #ffffff #000000 #000000 #ffffff;
+    box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
 }
 
 /* Fade-in Animation */
@@ -115,26 +117,45 @@ h1 {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* oder center für mittige Anordnung */
+    justify-content: flex-start; /* oder center fÃ¼r mittige Anordnung */
 }
 
 /* Hover bleibt immer greifbar */
 .game:hover {
-    transform: translateY(0) scale(1.05); /* Skaliert leicht, setzt translateY=0 */
-    box-shadow: 0 0 25px rgba(255,46,46,.7);
+    transform: translateY(-2px);
+    border-color: #ffffff #000000 #000000 #ffffff;
+    box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080, 0 4px 8px rgba(0,0,0,0.3);
 }
 
 
 /* Aktive / nicht abgeschlossene Spiele */
 .game.active {
-    border-color: #ff2e2e; /* bleibt rot */
-    box-shadow: 0 0 25px rgba(163, 45, 15, 0.7); /* neuer Glow: #a32d0f */
+    border-color: #000000 #ffffff #ffffff #000000;
+    box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #404040;
 }
 
 /* Abgeschlossene Spiele */
 .game.done {
-    border-color: #2ecc71; /* bleibt grün */
-    box-shadow: 0 0 20px rgba(48,146,32,0.6); /* neuer Glow: #309220 */
+    position: relative;
+}
+
+.game.done::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #008000;
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid;
+    border-color: #ffffff #000000 #000000 #ffffff;
+    box-shadow: inset 1px 1px 0 #00ff00;
 }
 
 .game img {
@@ -144,36 +165,36 @@ h1 {
 }
 
 .game-title {
-    font-family: "Compacta", sans-serif;
-    color: rgba(230, 230, 210, 1);
-    font-size: clamp(18px, 5vw, 36px); /* etwas kleiner für lange Titel */
+    font-family: "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+    color: #000000;
+    font-size: clamp(14px, 4vw, 16px);
     text-align: center;
-    line-height: 1.2;
-    letter-spacing: 0.5px;
-
-    -webkit-text-stroke: 1.2px #373046;
-    text-stroke: 1.2px #373046;
-
-    text-shadow: 0.4px 0.4px 0 #373046, 
-                -0.4px 0.4px 0 #373046, 
-                 0.4px -0.4px 0 #373046, 
-                -0.4px -0.4px 0 #373046;
+    line-height: 1.3;
+    letter-spacing: 0;
+    font-weight: normal;
+    
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+    text-shadow: none;
 
     display: flex;
     justify-content: center;   
     align-items: center;       
-    padding: 8px 10px;        /* genug Abstand rundherum */
+    padding: 8px 6px;
+    background: #c0c0c0;
     box-sizing: border-box;    
-    white-space: normal;       /* Zeilenumbruch erlauben */
-    word-break: break-word;    /* lange Worte umbrechen */
-    text-align: center;        /* zentriert */
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    border-top: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
 }
 
 
 .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.5); /* halbtransparenter Hintergrund für den Rest */
+    background: rgba(0,0,0,.5); /* halbtransparenter Hintergrund fÃ¼r den Rest */
     display: none;
     align-items: center;
     justify-content: center;
@@ -198,7 +219,7 @@ h1 {
 */
 
 
-/* Responsive: kein Bild auf kleineren Geräten */
+/* Responsive: kein Bild auf kleineren GerÃ¤ten */
 @media(max-width: 700px){
     .modal-bottom {
         flex-direction: column;
@@ -255,7 +276,7 @@ h1 {
   to   { filter: drop-shadow(0 0 20px #ff2e2e); }
 }
 
-/* Weiß aufblitzen */
+/* WeiÃŸ aufblitzen */
 #startOverlay.flash {
   animation: flashWhite 0.3s ease forwards;
 }
@@ -339,7 +360,7 @@ h1 {
     border-image-slice: 1;
     border-image-source: linear-gradient(135deg, #464545, #a3a3a3, #726e6d);
 
-    position: relative; /* für X-Button falls benötigt */
+    position: relative; /* fÃ¼r X-Button falls benÃ¶tigt */
 }
 /* Header */
 .modal-top {
@@ -361,7 +382,7 @@ h1 {
 
 .modal-header {
     font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(1rem, 2vw, 1.5rem); /* deutlich größer */
+    font-size: clamp(1rem, 2vw, 1.5rem); /* deutlich grÃ¶ÃŸer */
     color: #f0f0f0;
     white-space: nowrap;
     overflow: hidden;
@@ -371,14 +392,14 @@ h1 {
     position: absolute;
     top: 0;
     right: 0;
-    height: auto; /* Höhe via JS gesetzt */
+    height: auto; /* HÃ¶he via JS gesetzt */
     display: flex;
     align-items: stretch;
     overflow: visible; /* damit Border sichtbar ist */
 }
 
 .modal-right-gif img {
-    height: 100%;   /* volle Containerhöhe, also exakt Headerhöhe */
+    height: 100%;   /* volle ContainerhÃ¶he, also exakt HeaderhÃ¶he */
     width: auto;
     object-fit: cover;
 }
@@ -404,7 +425,7 @@ h1 {
     position: absolute;
     bottom: 0;
     width: 8px;    /* linke Border */
-    height: 100%;   /* gesamte Höhe */
+    height: 100%;   /* gesamte HÃ¶he */
     background: linear-gradient(to bottom, #464545, #726e6d, #141414);
 }
 
@@ -444,7 +465,7 @@ h1 {
     color: #ff2e2e; /* klassisches Rot */
     border: 2px solid #ff2e2e; /* alte GUI-Optik */
     font-family: 'Share Tech Mono', monospace;
-    font-size: 2rem; /* größerer X */
+    font-size: 2rem; /* grÃ¶ÃŸerer X */
     font-weight: bold;
     width: 50px;
     height: 50px;
@@ -476,7 +497,7 @@ h1 {
     z-index: 0;
 }
 
-/* Text über dem Hintergrund */
+/* Text Ã¼ber dem Hintergrund */
 .modal-left-content * {
     position: relative;
     z-index: 1;
@@ -484,7 +505,7 @@ h1 {
 
 #modalTextWrapper {
     position: relative;
-    z-index: 1; /* sicher über dem Hintergrundbild */
+    z-index: 1; /* sicher Ã¼ber dem Hintergrundbild */
 }
 
 /* Image rechts 1/3 */
@@ -537,7 +558,7 @@ h1 {
 
 @media(max-width: 1400px){
  .fade-in svg text {
-        font-size: 20vw; /* größere Schrift auf kleinen Handys */
+        font-size: 20vw; /* grÃ¶ÃŸere Schrift auf kleinen Handys */
     }
 }
 
@@ -553,7 +574,7 @@ h1 {
     }
 
 .grid {
-        padding: 0 15px; /* etwas enger auf kleinen Geräten */
+        padding: 0 15px; /* etwas enger auf kleinen GerÃ¤ten */
     }
 
     h1 svg text {
@@ -561,11 +582,11 @@ h1 {
     }
 
 .fade-in svg text {
-        font-size: 35vw; /* größere Schrift auf kleinen Handys */
+        font-size: 35vw; /* grÃ¶ÃŸere Schrift auf kleinen Handys */
     }
 
 #twitch-stream {
-        margin-top: 30px; /* weniger Abstand auf mobilen Geräten */
+        margin-top: 30px; /* weniger Abstand auf mobilen GerÃ¤ten */
         padding: 30px 0;
     }
      .twitch-logo {
@@ -594,7 +615,7 @@ h1 {
     font-weight: bold;
 }
 
-/* Überschrift nur fade-in */
+/* Ãœberschrift nur fade-in */
 .fade-in {
   opacity: 0;
   transition: opacity 2.5s ease;
@@ -614,8 +635,27 @@ body.start .fade-in {
 }
 
 .open-game {
-    border-color: #ff2e2e;
-    box-shadow: 0 0 25px rgba(255,46,46,0.7);
+    position: relative;
+}
+
+.open-game::before {
+    content: '!';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff0000;
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    border: 2px solid;
+    border-color: #ffffff #000000 #000000 #ffffff;
+    box-shadow: inset 1px 1px 0 #ff8080;
+    z-index: 5;
 }
 
 
@@ -714,9 +754,9 @@ text tspan {
 
     <div id="top-section">
 <div style="text-align:center; margin-bottom:35px; margin-top:35px" class="fade-in">
-  <svg viewBox="0 0 1800 200" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
+  <svg viewBox="0 0 1800 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
     <!-- Haupttext -->
-    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7" fill="#f0f0f0" font-size="8vw">
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7" fill="#f0f0f0" font-size="140">
         <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">H</tspan>ollylp 
         <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">R</tspan>esident 
         <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">E</tspan>vil 
@@ -724,7 +764,6 @@ text tspan {
     </text>
   </svg>
 </div>
-
 <div class="grid" id="grid">
 
 <div class="game" data-id="re1" data-img="Resident Evil 1.jpg"><img src="Resident Evil 1.jpg"><div class="game-title">Resident Evil 1</div></div>
@@ -760,7 +799,7 @@ text tspan {
 </div>
 </div>
 
-<!-- ✅ MODAL -->
+<!-- âœ… MODAL -->
 <div class="modal-backdrop" id="modal">
     <div class="modal hard-edge">
         <!-- Obere Sektion: Header + GIF -->
@@ -770,25 +809,23 @@ text tspan {
             </div>
             <button class="modal-close" onclick="closeModal()">X</button>
         </div>
-
-
-        <!-- Untere Sektion: Content + Bild -->
-        <div class="modal-bottom">
-            <div class="modal-left-content">
-                <div id="modalTextWrapper">
-                    <div id="modalStatus"></div>
-                    <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
-                </div>
-            </div>
-            <div class="image-wrapper">
-                <img id="modalImage" src="">
-            </div>
-        </div>
-
-     </div>
+<function_calls>
+<invoke name="artifacts">
+<parameter name="old_str">        <!-- Untere Sektion: Content + Bild --></parameter>
+<parameter name="new_str">        <!-- Untere Sektion: Content + Bild -->
+<div class="modal-bottom">
+<div class="modal-left-content">
+<div id="modalTextWrapper">
+<div id="modalStatus"></div>
+<div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
 </div>
-
-
+</div>
+<div class="image-wrapper">
+<img id="modalImage" src="">
+</div>
+</div>
+ </div>
+</div>
 <section id="twitch-stream" style="margin-top:30px; text-align:center;">
   <!-- Live auf Twitch mit Logo rechts -->
   <a href="https://www.twitch.tv/h0llylp" target="_blank" 
@@ -796,7 +833,6 @@ text tspan {
     <h2 style="color:#9146FF; margin:0; font-size:2rem; line-height:1;">Live auf Twitch</h2>
     <img src="twitch.png" alt="Twitch" style="height:2em; width:auto; display:block;">
   </a>
-
   <!-- Player -->
   <div class="twitch-embed-wrapper">
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
@@ -808,9 +844,6 @@ text tspan {
     </div>
   </div>
 </section>
-
-
-
 <script>
 const games = document.querySelectorAll(".game");
 const modal = document.getElementById("modal");
@@ -823,10 +856,10 @@ selectSound.volume = 0.1;
 const hoverSound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
 hoverSound.volume = 0.1;
 
-const typeSound = new Audio('typewriter.mp3'); // Sound für jeden Buchstaben
-typeSound.volume = 0.2; // Lautstärke anpassen
+const typeSound = new Audio('typewriter.mp3'); // Sound fÃ¼r jeden Buchstaben
+typeSound.volume = 0.2; // LautstÃ¤rke anpassen
 
-// Status für alle Spiele
+// Status fÃ¼r alle Spiele
 const data = {
     re1: "done", re2: "done", re3: "done", re4: "open", zero: "open",
     re1r: "open", re2r: "open", re3r: "open", re4r: "open",
@@ -844,7 +877,7 @@ const recordings = {
     survivor: "https://www.twitch.tv/videos/2640291764?t=5h4m2s"
 };
 
-// ✅ Klasse 'done' direkt beim Laden setzen
+// âœ… Klasse 'done' direkt beim Laden setzen
 games.forEach(game => {
     const id = game.dataset.id;
     if(data[id] === "done") {
@@ -878,7 +911,7 @@ startOverlay.addEventListener('click', () => {
     }, { once: true });
 });
 
-// Sound für Modal-Schließen
+// Sound fÃ¼r Modal-SchlieÃŸen
 const closeSound = new Audio('resident-evil-typewriter.mp3');
 closeSound.volume = 0.05;
 
@@ -910,7 +943,7 @@ const typewriterController = {
 };
 
 function skipTypewriter() {
-    // Timer löschen
+    // Timer lÃ¶schen
     typewriterController.timers.forEach(t => clearTimeout(t));
     typewriterController.timers = [];
     typewriterController.active = false;
@@ -928,7 +961,7 @@ modal.addEventListener("click", () => {
 });
 
 function skipTypewriter() {
-    // Timer löschen
+    // Timer lÃ¶schen
     typewriterController.timers.forEach(t => clearTimeout(t));
     typewriterController.timers = [];
     typewriterController.active = false;
@@ -942,7 +975,7 @@ function skipTypewriter() {
 }
 
 function typeWriterHTML(element, htmlText, speed = 50, callback) {
-    // Alte Timer löschen
+    // Alte Timer lÃ¶schen
     
     typewriterController.active = true;
     typewriterController.timers.forEach(t => clearTimeout(t));
@@ -966,7 +999,7 @@ function typeWriterHTML(element, htmlText, speed = 50, callback) {
             const char = node.textContent.charAt(charIndex);
             element.innerHTML += char;
 
-            // ✅ Neuer Audio-Instanz für jeden Buchstaben
+            // âœ… Neuer Audio-Instanz fÃ¼r jeden Buchstaben
             if(char.trim() !== "") {
                 if(typewriterController.active) {
                     const sound = new Audio('typewriter.mp3');
@@ -1024,7 +1057,7 @@ games.forEach(game => {
         const loadingLines = [
             "Login...",
             "Username: H0llyLP",
-            "Password: *****",
+            "Passwort: *****",
             "...",
             "H0llyLP erfolgreich autorisiert...",
             "Lade Missionsdaten...",
@@ -1044,7 +1077,7 @@ games.forEach(game => {
             loadingLines.push(`<span style="white-space: nowrap;">Zur Mission: <a href="${recordingLink}" target="_blank" style="color:${linkColor}; text-decoration:underline;">${linkText}</a></span>`);
         }
 
-        // Modal öffnen
+        // Modal Ã¶ffnen
         modal.style.display = "flex";
 
         // Modal-Header direkt setzen (kein Typewriter)
@@ -1065,7 +1098,7 @@ function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
     typewriterController.currentLines = lines; // ZEILEN SPEICHERN
     let lineIndex = 0;
 
-    // Alte Timer löschen
+    // Alte Timer lÃ¶schen
     typewriterController.timers.forEach(t => clearTimeout(t));
     typewriterController.timers = [];
 
@@ -1091,14 +1124,5 @@ function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
 
 
 </script>
-
 </body>
-</html>
-
-
-
-
-
-
-
-
+</html></parameter>
