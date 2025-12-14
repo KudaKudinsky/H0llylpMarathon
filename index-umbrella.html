@@ -102,21 +102,18 @@ body::before {
 .umbrella-icon {
     width: 50px;
     height: 50px;
-    background: radial-gradient(circle, #ff0000 0%, #8b0000 100%);
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
     animation: pulse 2s infinite;
 }
 
-
 .umbrella-icon img {
-    width: 70%;
-    height: 70%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
 }
 
 @keyframes pulse {
@@ -168,6 +165,135 @@ body::before {
     font-weight: bold;
 }
 
+/* Game Grid with Images */
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    background: rgba(0, 20, 0, 0.8);
+    border: 2px solid #0f0;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+/* Pending Cards mit rotem Theme */
+.game-card.pending {
+    background: rgba(20, 0, 0, 0.8);
+    border-color: #f00;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.3), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.game-card.pending::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+}
+
+.game-card:hover::before {
+    left: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 30px rgba(0, 255, 0, 0.6);
+    border-color: #0ff;
+}
+
+.game-card.pending:hover {
+    box-shadow: 0 5px 30px rgba(255, 0, 0, 0.6);
+    border-color: #f00;
+}
+
+.game-card-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 2px solid #0f0;
+    filter: brightness(0.7) contrast(1.2);
+    transition: filter 0.3s;
+}
+
+.game-card.pending .game-card-image {
+    border-bottom-color: #f00;
+}
+
+.game-card:hover .game-card-image {
+    filter: brightness(0.9) contrast(1.3);
+}
+
+.game-card-content {
+    padding: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.game-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.game-number {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    color: #0f0;
+}
+
+.game-card.pending .game-number {
+    color: #f00;
+}
+
+.game-card-title {
+    font-size: 0.95rem;
+    color: #0f0;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px #0f0;
+    line-height: 1.3;
+}
+
+.game-card.pending .game-card-title {
+    color: #f00;
+    text-shadow: 0 0 5px #f00;
+}
+
+.game-card-status {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border: 1px solid;
+    display: inline-block;
+}
+
+.game-card-status.completed {
+    color: #0f0;
+    border-color: #0f0;
+    background: rgba(0, 255, 0, 0.2);
+}
+
+.game-card-status.pending {
+    color: #f00;
+    border-color: #f00;
+    background: rgba(255, 0, 0, 0.2);
+}
+
+
+
 /* Main Content */
 .main-content {
     flex: 1;
@@ -208,10 +334,6 @@ body::before {
     position: relative;
 }
 
-.file-item.done {
-    background: linear-gradient(90deg, rgba(51, 139, 0, 0.2) 0%, transparent 100%) !important;
-}
-
 .file-item::before {
     content: "📁";
     position: absolute;
@@ -229,6 +351,22 @@ body::before {
     background: linear-gradient(90deg, rgba(255, 0, 0, 0.3) 0%, rgba(139, 0, 0, 0.2) 100%);
     border-left-color: #ff0000;
     box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+/* Completed File Items - GRÜN */
+.file-item.completed {
+    background: linear-gradient(90deg, rgba(0, 139, 0, 0.2) 0%, transparent 100%);
+}
+
+.file-item.completed:hover {
+    background: linear-gradient(90deg, rgba(0, 139, 0, 0.4) 0%, rgba(0, 139, 0, 0.1) 100%);
+    border-left-color: #0f0;
+}
+
+.file-item.completed.active {
+    background: linear-gradient(90deg, rgba(0, 255, 0, 0.3) 0%, rgba(0, 139, 0, 0.2) 100%);
+    border-left-color: #0f0;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.3);
 }
 
 .file-number {
@@ -254,9 +392,9 @@ body::before {
 }
 
 .file-status.completed {
-    background: #8b0000;
-    color: #fff;
-    border: 1px solid #ff0000;
+    background: #0a5a0a;
+    color: #0f0;
+    border: 1px solid #0f0;
 }
 
 .file-status.pending {
@@ -273,56 +411,146 @@ body::before {
     position: relative;
 }
 
-.welcome-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+/* Overview Section */
+.overview-container {
     padding: 40px;
 }
 
-.warning-box {
-    border: 3px solid #ff0000;
-    padding: 40px;
-    max-width: 600px;
-    background: rgba(139, 0, 0, 0.1);
-    box-shadow: 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 40px rgba(0, 0, 0, 0.5);
-}
-
-.warning-icon {
-    font-size: 4rem;
-    color: #ff0000;
-    margin-bottom: 20px;
-    animation: warningBlink 1.5s infinite;
-}
-
-@keyframes warningBlink {
-    0%, 49%, 100% { opacity: 1; }
-    50%, 99% { opacity: 0.3; }
-}
-
-.warning-title {
-    font-size: 1.8rem;
-    color: #ff0000;
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
-
-.warning-text {
-    font-size: 0.9rem;
-    color: #ccc;
-    line-height: 1.8;
+.overview-header {
+    border-bottom: 3px solid #8b0000;
+    padding-bottom: 20px;
     margin-bottom: 30px;
+    position: relative;
 }
 
-.access-code {
-    font-size: 0.8rem;
+.overview-header::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 200px;
+    height: 3px;
+    background: #ff0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+.overview-title {
+    font-size: 2rem;
     color: #ff0000;
-    font-family: 'Courier Prime', monospace;
-    letter-spacing: 2px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.overview-subtitle {
+    font-size: 0.9rem;
+    color: #888;
+    line-height: 1.6;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: rgba(139, 0, 0, 0.1);
+    border: 2px solid #8b0000;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    border-color: #ff0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+.stat-card.completed {
+    background: rgba(0, 139, 0, 0.1);
+    border-color: #0a5a0a;
+}
+
+.stat-card.completed:hover {
+    border-color: #0f0;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.stat-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff0000;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.stat-card.completed .stat-value {
+    color: #0f0;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.games-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.game-overview-card {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.15) 0%, rgba(139, 0, 0, 0.05) 100%);
+    border: 1px solid #8b0000;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-overview-card:hover {
+    border-color: #ff0000;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(139, 0, 0, 0.1) 100%);
+    transform: translateY(-2px);
+}
+
+.game-overview-card.completed {
+    background: linear-gradient(135deg, rgba(0, 139, 0, 0.15) 0%, rgba(0, 139, 0, 0.05) 100%);
+    border-color: #0a5a0a;
+}
+
+.game-overview-card.completed:hover {
+    border-color: #0f0;
+    background: linear-gradient(135deg, rgba(0, 139, 0, 0.3) 0%, rgba(0, 139, 0, 0.1) 100%);
+}
+
+.game-overview-title {
+    font-size: 0.85rem;
+    color: #fff;
+}
+
+.game-overview-status {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+}
+
+.game-overview-status.completed {
+    background: #0a5a0a;
+    color: #0f0;
+    border: 1px solid #0f0;
+}
+
+.game-overview-status.pending {
+    background: #1a1a1a;
+    color: #666;
+    border: 1px solid #333;
 }
 
 /* Detail View */
@@ -351,6 +579,10 @@ body::before {
     position: relative;
 }
 
+.detail-header.completed {
+    border-bottom-color: #0a5a0a;
+}
+
 .detail-header::after {
     content: "";
     position: absolute;
@@ -362,12 +594,22 @@ body::before {
     box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
 }
 
+.detail-header.completed::after {
+    background: #0f0;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
 .detail-title {
     font-size: 2rem;
     color: #ff0000;
     margin-bottom: 15px;
     font-weight: bold;
     text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.detail-title.completed {
+    color: #0f0;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
 }
 
 .detail-meta {
@@ -382,6 +624,11 @@ body::before {
     padding: 5px 10px;
     background: rgba(139, 0, 0, 0.2);
     border: 1px solid #8b0000;
+}
+
+.detail-meta.completed span {
+    background: rgba(0, 139, 0, 0.2);
+    border-color: #0a5a0a;
 }
 
 .detail-content {
@@ -407,6 +654,11 @@ body::before {
     top: 20px;
 }
 
+.detail-image-box.completed {
+    border-color: #0a5a0a;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+}
+
 .detail-image {
     width: 100%;
     height: auto;
@@ -421,12 +673,21 @@ body::before {
     margin-bottom: 25px;
 }
 
+.info-section.completed {
+    background: rgba(0, 139, 0, 0.1);
+    border-left-color: #0a5a0a;
+}
+
 .info-section h3 {
     color: #ff0000;
     font-size: 1.1rem;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+.info-section.completed h3 {
+    color: #0f0;
 }
 
 .info-section p {
@@ -478,6 +739,17 @@ body::before {
     background: linear-gradient(180deg, #ff0000 0%, #8b0000 100%);
     box-shadow: 0 5px 30px rgba(255, 0, 0, 0.8);
     transform: translateY(-2px);
+}
+
+.access-button.completed {
+    background: linear-gradient(180deg, #0a5a0a 0%, #054a05 100%);
+    border-color: #0f0;
+    box-shadow: 0 5px 20px rgba(0, 139, 0, 0.5);
+}
+
+.access-button.completed:hover {
+    background: linear-gradient(180deg, #0f0 0%, #0a5a0a 100%);
+    box-shadow: 0 5px 30px rgba(0, 255, 0, 0.8);
 }
 
 /* Footer */
@@ -538,6 +810,10 @@ body::before {
     .detail-image-box {
         position: relative;
     }
+    
+    .games-overview {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
@@ -560,8 +836,11 @@ body::before {
     .company-name {
         font-size: 1.2rem;
     }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
-
 </style>
 </head>
 <body>
@@ -574,7 +853,7 @@ body::before {
         <div class="header-top">
             <div class="logo">
                 <div class="umbrella-icon">
-                    <img src="umbrella.png" alt="Umbrella Logo">
+                    <img src="umbrella.png" alt="Umbrella Corporation" onerror="this.parentElement.innerHTML='☂'">
                 </div>
                 <div class="logo-text">
                     <div class="company-name">UMBRELLA CORPORATION</div>
@@ -603,21 +882,36 @@ body::before {
 
         <!-- Display Area -->
         <div class="display-area">
-            <!-- Welcome Screen -->
-            <div id="welcomeScreen" class="welcome-container">
-                <div class="warning-box">
-                    <div class="warning-icon">⚠</div>
-                    <div class="warning-title">CLASSIFIED DATABASE</div>
-                    <div class="warning-text">
-                        You are accessing Umbrella Corporation's confidential research archives.
-                        All activities are monitored and logged.
-                        <br><br>
-                        Select a mission file from the sidebar to continue.
-                    </div>
-                    <div class="access-code">
-                        ACCESS CODE: RE-MARATHON-2025
+            <!-- Overview -->
+            <div id="overviewScreen" class="overview-container">
+                <div class="overview-header">
+                    <div class="overview-title">MISSION OVERVIEW</div>
+                    <div class="overview-subtitle">
+                        Complete database of all Resident Evil Marathon missions.<br>
+                        Select a mission from the list below or sidebar for detailed information.
                     </div>
                 </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalStat">0</div>
+                        <div class="stat-label">Total Missions</div>
+                    </div>
+                    <div class="stat-card completed">
+                        <div class="stat-value" id="completedStat">0</div>
+                        <div class="stat-label">Terminated</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingStat">0</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="progressStat">0%</div>
+                        <div class="stat-label">Progress</div>
+                    </div>
+                </div>
+
+                <div class="games-overview" id="gamesOverview"></div>
             </div>
 
             <!-- Detail View -->
@@ -634,7 +928,7 @@ body::before {
         </div>
         <div>
             <span class="biohazard">☣</span>
-            COMPLETED: <span id="completedCount">0</span> / <span id="totalCount">0</span>
+            COMPLETED: <span id="completedCount" style="color: #0f0;">0</span> / <span id="totalCount">0</span>
         </div>
     </div>
 </div>
@@ -667,13 +961,14 @@ const games = {
 
 function init() {
     renderFileList();
+    renderOverview();
     updateStats();
 }
 
 function renderFileList() {
     const fileList = document.getElementById('fileList');
     fileList.innerHTML = Object.entries(games).map(([id, game], index) => `
-        <div class="file-item ${game.status === 'done' ? 'done' : ''}" onclick="openFile('${id}')">
+        <div class="file-item ${game.status === 'done' ? 'completed' : ''}" onclick="openFile('${id}')">
             <span class="file-number">FILE #${String(index + 1).padStart(3, '0')}</span>
             <div class="file-title">${game.title}</div>
             <span class="file-status ${game.status === 'done' ? 'completed' : 'pending'}">
@@ -685,22 +980,22 @@ function renderFileList() {
 
 function openFile(gameId) {
     const game = games[gameId];
+    const isCompleted = game.status === 'done';
     
     // Highlight selected
     document.querySelectorAll('.file-item').forEach(item => item.classList.remove('active'));
-    event.currentTarget.classList.add('active');
     
-    // Hide welcome, show details
-    document.getElementById('welcomeScreen').style.display = 'none';
+    // Hide overview, show details
+    document.getElementById('overviewScreen').style.display = 'none';
     const detailView = document.getElementById('detailView');
     detailView.classList.add('active');
     
     const fileNumber = Object.keys(games).indexOf(gameId) + 1;
     
     detailView.innerHTML = `
-        <div class="detail-header">
-            <div class="detail-title">${game.title}</div>
-            <div class="detail-meta">
+        <div class="detail-header ${isCompleted ? 'completed' : ''}">
+            <div class="detail-title ${isCompleted ? 'completed' : ''}">${game.title}</div>
+            <div class="detail-meta ${isCompleted ? 'completed' : ''}">
                 <span>FILE: #${String(fileNumber).padStart(3, '0')}</span>
                 <span>STATUS: ${game.status === 'done' ? 'TERMINATED' : 'ACTIVE'}</span>
                 <span>CLEARANCE: LEVEL 5</span>
@@ -710,7 +1005,7 @@ function openFile(gameId) {
         
         <div class="detail-content">
             <div class="detail-left">
-                <div class="info-section">
+                <div class="info-section ${isCompleted ? 'completed' : ''}">
                     <h3>☣ MISSION BRIEFING</h3>
                     <p>
                         <strong>OPERATION:</strong> ${game.title}<br><br>
@@ -720,7 +1015,7 @@ function openFile(gameId) {
                     </p>
                 </div>
                 
-                <div class="info-section">
+                <div class="info-section ${isCompleted ? 'completed' : ''}">
                     <h3>📊 MISSION DATA</h3>
                     <div class="data-grid">
                         <div class="data-item">
@@ -737,19 +1032,19 @@ function openFile(gameId) {
                         </div>
                         <div class="data-item">
                             <div class="data-label">THREAT LEVEL</div>
-                            <div class="data-value" style="color: #ff0000;">EXTREME</div>
+                            <div class="data-value" style="color: ${isCompleted ? '#0f0' : '#ff0000'};">${isCompleted ? 'NEUTRALIZED' : 'EXTREME'}</div>
                         </div>
                     </div>
                 </div>
                 
                 ${game.recording ? `
-                    <div class="info-section">
+                    <div class="info-section ${isCompleted ? 'completed' : ''}">
                         <h3>📹 MISSION RECORDING</h3>
                         <p>
                             Mission footage has been archived and is available for review.
                             Access requires Level 5 clearance.
                         </p>
-                        <button class="access-button" onclick="window.open('${game.recording}', '_blank')">
+                        <button class="access-button ${isCompleted ? 'completed' : ''}" onclick="window.open('${game.recording}', '_blank')">
                             ▶ ACCESS RECORDING
                         </button>
                     </div>
@@ -768,7 +1063,7 @@ function openFile(gameId) {
             </div>
             
             <div class="detail-right">
-                <div class="detail-image-box">
+                <div class="detail-image-box ${isCompleted ? 'completed' : ''}">
                     <img src="${game.image}" alt="${game.title}" class="detail-image" onerror="this.parentElement.style.display='none'">
                 </div>
             </div>
@@ -779,9 +1074,27 @@ function openFile(gameId) {
 function updateStats() {
     const completed = Object.values(games).filter(g => g.status === 'done').length;
     const total = Object.keys(games).length;
+    const pending = total - completed;
+    const progress = Math.round((completed / total) * 100);
     
     document.getElementById('completedCount').textContent = completed;
     document.getElementById('totalCount').textContent = total;
+    document.getElementById('totalStat').textContent = total;
+    document.getElementById('completedStat').textContent = completed;
+    document.getElementById('pendingStat').textContent = pending;
+    document.getElementById('progressStat').textContent = progress + '%';
+}
+
+function renderOverview() {
+    const gamesOverview = document.getElementById('gamesOverview');
+    gamesOverview.innerHTML = Object.entries(games).map(([id, game]) => `
+        <div class="game-overview-card ${game.status === 'done' ? 'completed' : ''}" onclick="openFile('${id}')">
+            <div class="game-overview-title">${game.title}</div>
+            <div class="game-overview-status ${game.status === 'done' ? 'completed' : 'pending'}">
+                ${game.status === 'done' ? 'TERMINATED' : 'ACTIVE'}
+            </div>
+        </div>
+    `).join('');
 }
 
 init();
@@ -789,3 +1102,5 @@ init();
 
 </body>
 </html>
+
+
