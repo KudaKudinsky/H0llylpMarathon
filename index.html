@@ -840,6 +840,35 @@
             font-weight: bold;
         }
 
+        .win-button {
+            font-family: Tahoma, Verdana, sans-serif;
+            font-size: 14px;
+            padding: 6px 20px;
+            background: #c0c0c0;
+            color: #000;
+            border: 2px solid;
+            border-top-color: #ffffff;
+            border-left-color: #ffffff;
+            border-bottom-color: #404040;
+            border-right-color: #404040;
+            cursor: pointer;
+            box-shadow: none;
+            letter-spacing: 1px;
+        }
+
+        .win-button:active {
+            border-top-color: #404040;
+            border-left-color: #404040;
+            border-bottom-color: #ffffff;
+            border-right-color: #ffffff;
+            padding: 7px 19px 5px 21px; /* gedrückt-Effekt */
+        }
+
+        .win-button:focus {
+            outline: 1px dotted #000;
+            outline-offset: -4px;
+        }
+
         /* Ãœberschrift nur fade-in */
         .fade-in {
             opacity: 0;
@@ -1002,20 +1031,7 @@
         </div>
 
         <div style="text-align:center; margin:30px 0;" class="fade-in">
-            <button id="tierlistBtn" style="
-        font-family: 'Compacta', sans-serif;
-        font-size: 1.5rem;
-        display: none;
-        padding: 15px 40px;
-        background: linear-gradient(135deg, #ff2e2e, #a32d0f);
-        color: #fff;
-        border: 3px solid #fff;
-        border-radius: 8px;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(255,46,46,0.5);
-        transition: all 0.3s ease;
-        letter-spacing: 2px;
-    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <button id="tierlistBtn" class="win-button">
                 🏆 TIERLIST ANZEIGEN
             </button>
         </div>
