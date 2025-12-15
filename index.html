@@ -100,6 +100,7 @@
 
         .game {
             opacity: 0;
+            position: relative;
             transform: translateY(20px);
             transition: transform 0.25s ease,
                 box-shadow 0.4s ease,
@@ -150,6 +151,20 @@
             box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #404040;
         }
 
+        /* Grüner Foreground für erledigte Games */
+        .game.done::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: clamp(190px, 28vw, 260px); /* exakt gleiche Höhe wie img */
+            background: rgba(0, 180, 0, 0.25);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+
         .game.done::after {
             content: '✓';
             position: absolute;
@@ -173,6 +188,8 @@
             width: 100%;
             height: clamp(190px, 28vw, 260px);
             object-fit: cover;
+            position: relative;
+            z-index: 1;
         }
 
         .game-title {
@@ -199,15 +216,13 @@
             text-align: center;
             border-top: 2px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
+            position: relative;
+            z-index: 3;
         }
 
         /* Abgeschlossene Spiele */
-        .game.done {
-            position: relative;
-
-            .game-title {
-                text-color: green;
-            }
+        .game.done .game-title {
+            color: #006600;
         }
 
         .modal-backdrop {
@@ -1611,5 +1626,6 @@
 
 </html>
 </parameter>
+
 
 
