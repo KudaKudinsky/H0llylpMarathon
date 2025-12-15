@@ -1,211 +1,229 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<title>H0llyLP Resident Evil Marathon</title>
+    <meta charset="UTF-8">
+    <title>H0llyLP Resident Evil Marathon</title>
 
-<link rel="icon" type="image/png" href="holly.png">
+    <link rel="icon" type="image/png" href="holly.png">
 
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        @font-face {
+            font-family: "ResidentEvil7";
+            src: url("residentevil7rusbylyajka.otf") format("opentype");
 
-@font-face {
-    font-family: "ResidentEvil7";
-    src: url("residentevil7rusbylyajka.otf") format("opentype");
+        }
 
-}
+        @font-face {
+            font-family: "Compacta";
+            src: url("Compacta Std Regular.otf") format("opentype");
 
-@font-face {
-    font-family: "Compacta";
-    src: url("Compacta Std Regular.otf") format("opentype");
-
-}
-
+        }
 
 
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    color: #fff;
-    position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
 
-    /* Hintergrundbild */
-    background: url('resident-evil-requiem-9.jpg') center/cover no-repeat fixed;
-}
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: inherit; /* gleiche Hintergrundbild wie body */
-    filter: blur(15px) brightness(0.7); /* weniger stark blur + heller */
-    opacity: 0.9; /* etwas transparenter, weiche Kanten */
-    z-index: -1; /* hinter allen Inhalten */
-}
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
 
-h1 {
-    font-family: "ResidentEvil7";
-    font-size: clamp(3rem, 6vw, 5rem);
-    margin-bottom: 35px;
-    display: flex;
-    -webkit-font-smoothing: antialiased; /* Chrome, Safari */
-    -moz-osx-font-smoothing: grayscale;  /* Firefox */
-    justify-content: center;
-    align-items: center;
-    gap: 10px; /* Abstand zwischen Text und Twitch-Logo */
-}
+            /* Hintergrundbild */
+            background: url('resident-evil-requiem-9.jpg') center/cover no-repeat fixed;
+        }
 
-.red-letter {
-    color: #ff2e2e;
-    display: inline-block;  /* verhindert unerwÃ¼nschten Abstand */
-    margin: 0;              /* reduziert Abstand zu den folgenden Buchstaben */
-}
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: inherit;
+            /* gleiche Hintergrundbild wie body */
+            filter: blur(15px) brightness(0.7);
+            /* weniger stark blur + heller */
+            opacity: 0.9;
+            /* etwas transparenter, weiche Kanten */
+            z-index: -1;
+            /* hinter allen Inhalten */
+        }
 
-.twitch-logo {
-    height: 1em;        /* gleich hoch wie Text auf Desktop */
-    width: auto;
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle; /* zentriert das Logo perfekt zur Textmitte */
-}
+        h1 {
+            font-family: "ResidentEvil7";
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 35px;
+            display: flex;
+            -webkit-font-smoothing: antialiased;
+            /* Chrome, Safari */
+            -moz-osx-font-smoothing: grayscale;
+            /* Firefox */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            /* Abstand zwischen Text und Twitch-Logo */
+        }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 18px;
-    padding: 0 20px; /* neuer Innenabstand links und rechts */
-    box-sizing: border-box; /* damit Padding nicht die Breite sprengt */
-}
+        .red-letter {
+            color: #ff2e2e;
+            display: inline-block;
+            /* verhindert unerwÃ¼nschten Abstand */
+            margin: 0;
+            /* reduziert Abstand zu den folgenden Buchstaben */
+        }
 
-.game {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.25s ease, 
+        .twitch-logo {
+            height: 1em;
+            /* gleich hoch wie Text auf Desktop */
+            width: auto;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
+            /* zentriert das Logo perfekt zur Textmitte */
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 18px;
+            padding: 0 20px;
+            /* neuer Innenabstand links und rechts */
+            box-sizing: border-box;
+            /* damit Padding nicht die Breite sprengt */
+        }
+
+        .game {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.25s ease,
                 box-shadow 0.4s ease,
                 border-color 0.3s ease;
-    background-color: #c0c0c0;
-    border-radius: 0;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
-}
+            background-color: #c0c0c0;
+            border-radius: 0;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080;
+        }
 
-/* Fade-in Animation */
-.game.fade-in {
-    animation: fadeInUp 0.8s ease forwards;
-}
+        /* Fade-in Animation */
+        .game.fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+            }
 
-#top-section {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* oder center fÃ¼r mittige Anordnung */
-}
+            to {
+                opacity: 1;
+            }
+        }
 
-/* Hover bleibt immer greifbar */
-.game:hover {
-    transform: translateY(-2px);
-    border-color: #ffffff #000000 #000000 #ffffff;
-    box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080, 0 4px 8px rgba(0,0,0,0.3);
-}
+        #top-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* oder center fÃ¼r mittige Anordnung */
+        }
+
+        /* Hover bleibt immer greifbar */
+        .game:hover {
+            transform: translateY(-2px);
+            border-color: #ffffff #000000 #000000 #ffffff;
+            box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 #808080, 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
 
 
-/* Aktive / nicht abgeschlossene Spiele */
-.game.active {
-    border-color: #000000 #ffffff #ffffff #000000;
-    box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #404040;
-}
+        /* Aktive / nicht abgeschlossene Spiele */
+        .game.active {
+            border-color: #000000 #ffffff #ffffff #000000;
+            box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #404040;
+        }
 
-.game.done::after {
-    content: '✓';
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #008000;
-    color: #ffffff;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 16px;
-    border: 2px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    box-shadow: inset 1px 1px 0 #00ff00;
-}
+        .game.done::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #008000;
+            color: #ffffff;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            border: 2px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            box-shadow: inset 1px 1px 0 #00ff00;
+        }
 
-.game img {
-    width: 100%;
-    height: clamp(190px, 28vw, 260px);
-    object-fit: cover;
-}
+        .game img {
+            width: 100%;
+            height: clamp(190px, 28vw, 260px);
+            object-fit: cover;
+        }
 
-.game-title {
-    font-family: "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
-    color: #000000;
-    font-size: clamp(14px, 4vw, 16px);
-    text-align: center;
-    line-height: 1.3;
-    letter-spacing: 0;
-    font-weight: normal;
-    
-    -webkit-text-stroke: 0;
-    text-stroke: 0;
-    text-shadow: none;
+        .game-title {
+            font-family: "MS Sans Serif", "Microsoft Sans Serif", sans-serif;
+            color: #000000;
+            font-size: clamp(14px, 4vw, 16px);
+            text-align: center;
+            line-height: 1.3;
+            letter-spacing: 0;
+            font-weight: normal;
 
-    display: flex;
-    justify-content: center;   
-    align-items: center;       
-    padding: 8px 6px;
-    background: #c0c0c0;
-    box-sizing: border-box;    
-    white-space: normal;
-    word-break: break-word;
-    text-align: center;
-    border-top: 2px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
-}
+            -webkit-text-stroke: 0;
+            text-stroke: 0;
+            text-shadow: none;
 
-/* Abgeschlossene Spiele */
-.game.done {
-    position: relative;
-    .game-title {
-        text-color: green;
-    }
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 6px;
+            background: #c0c0c0;
+            box-sizing: border-box;
+            white-space: normal;
+            word-break: break-word;
+            text-align: center;
+            border-top: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+        }
 
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5); /* halbtransparenter Hintergrund fÃ¼r den Rest */
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    padding: 15px;
-    overflow-y: auto;
-}
+        /* Abgeschlossene Spiele */
+        .game.done {
+            position: relative;
 
-/*
+            .game-title {
+                text-color: green;
+            }
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            /* halbtransparenter Hintergrund fÃ¼r den Rest */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        /*
 .modal::before {
     content: '';
     position: absolute;
@@ -220,913 +238,1360 @@ h1 {
 }
 */
 
+        /* TIERLIST STYLES */
+        .tier-row {
+            display: flex;
+            margin-bottom: 2px;
+            min-height: 100px;
+            border: 2px solid #333;
+        }
 
-/* Responsive: kein Bild auf kleineren GerÃ¤ten */
-@media(max-width: 700px){
-    .modal-bottom {
-        flex-direction: column;
-    }
-    .image-wrapper {
-        display: none;
-    }
-}
+        .tier-label {
+            width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            border-right: 3px solid #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
 
-/* Typewriter Animation */
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
+        .tier-label.S {
+            background: linear-gradient(135deg, #ff2e2e, #ff6b6b);
+            color: #fdba28;
+        }
 
-@keyframes blinkCursor {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: #ff2e2e; }
-}
+        .tier-label.A {
+            background: linear-gradient(135deg, #ffa500, #ffcc00);
+            color: #ffffff;
+        }
+
+        .tier-label.B {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            color: #ffffff;
+        }
+
+        .tier-label.C {
+            background: linear-gradient(135deg, #2196F3, #64B5F6);
+            color: #fff;
+        }
+
+        .tier-label.D {
+            background: linear-gradient(135deg, #9E9E9E, #BDBDBD);
+            color: #ffffff;
+        }
+
+        .tier-games {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            gap: 10px;
+            background: #1a1a2e;
+            flex-wrap: wrap;
+        }
+
+        .tier-game-card {
+            position: relative;
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #464545;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tier-game-card:hover {
+            transform: scale(1.05);
+            border-color: #ff2e2e;
+        }
+
+        .tier-game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tier-game-card .tier-game-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 4px;
+            font-size: 0.7rem;
+            text-align: center;
+            font-family: 'Compacta', sans-serif;
+        }
+
+        /* Responsive */
+        @media(max-width: 700px) {
+            .modal-bottom {
+                flex-direction: column;
+            }
+
+            .image-wrapper {
+                display: none;
+            }
+
+            .tier-row {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .tier-label {
+                width: 100%;
+                height: 50px;
+                border-right: none;
+                border-bottom: 3px solid #333;
+            }
+
+            .tier-game-card {
+                width: 100px;
+                height: 70px;
+            }
+        }
+
+
+        /* Responsive: kein Bild auf kleineren GerÃ¤ten */
+        @media(max-width: 700px) {
+            .modal-bottom {
+                flex-direction: column;
+            }
+
+            .image-wrapper {
+                display: none;
+            }
+        }
+
+        /* Typewriter Animation */
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blinkCursor {
+
+            0%,
+            100% {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #ff2e2e;
+            }
+        }
 
 
 
-/* Overlay */
-#startOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  font-size: 2rem;
-  cursor: pointer;
-  text-align: center;
-  opacity: 1;
-  transition: opacity 3s ease;
-  user-select: none;
-}
+        /* Overlay */
+        #startOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            cursor: pointer;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 3s ease;
+            user-select: none;
+        }
 
-#startOverlay.fade-out {
-  opacity: 0;
-}
+        #startOverlay.fade-out {
+            opacity: 0;
+        }
 
-/* Glow-Effekt im Idle 
+        /* Glow-Effekt im Idle 
 #startOverlay text {
   filter: drop-shadow(0 0 5px #ffffff);
   // animation: glowPulse 1.5s infinite alternate;
 } */
 
-@keyframes glowPulse {
-  from { filter: drop-shadow(0 0 5px #ff2e2e); }
-  to   { filter: drop-shadow(0 0 20px #ff2e2e); }
-}
+        @keyframes glowPulse {
+            from {
+                filter: drop-shadow(0 0 5px #ff2e2e);
+            }
 
-/* WeiÃŸ aufblitzen */
-#startOverlay.flash {
-  animation: flashWhite 0.3s ease forwards;
-}
+            to {
+                filter: drop-shadow(0 0 20px #ff2e2e);
+            }
+        }
 
-@keyframes flashWhite {
-  0%   { background-color: rgba(255,255,255,0.9); }
-  100% { background-color: rgba(0,0,0,0.85); }
-}
+        /* WeiÃŸ aufblitzen */
+        #startOverlay.flash {
+            animation: flashWhite 0.3s ease forwards;
+        }
 
-.image-wrapper {
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.2);
-}
+        @keyframes flashWhite {
+            0% {
+                background-color: rgba(255, 255, 255, 0.9);
+            }
 
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    border-radius: 12px;
-}
+            100% {
+                background-color: rgba(0, 0, 0, 0.85);
+            }
+        }
 
-/* Twitch-Section */
-  #twitch-stream {
-    width: 100%;
-    background: #000; /* harte Kante */
-    padding: 50px 0;
-    margin-top: 50px; /* Abstand nach oben vom Grid */
-    text-align: center;
-}
+        .image-wrapper {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.2);
+        }
 
-  #twitch-stream h2 {
-    color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    margin-bottom: 30px;
-    font-size: clamp(1.5rem, 4vw, 2rem);
-  }
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: 12px;
+        }
 
-  /* Twitch Embed responsiv */
-  #twitch-stream .twitch-embed-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 Ratio */
-    height: 0;
-    overflow: hidden;
-    width: 100%;
-  }
+        /* Twitch-Section */
+        #twitch-stream {
+            width: 100%;
+            background: #000;
+            /* harte Kante */
+            padding: 50px 0;
+            margin-top: 50px;
+            /* Abstand nach oben vom Grid */
+            text-align: center;
+        }
 
-  #twitch-stream .twitch-embed-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
+        #twitch-stream h2 {
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin-bottom: 30px;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+        }
 
-  .modal, 
-.modal * {
-    user-select: none;        /* Text nicht markierbar */
-    -webkit-user-select: none; /* Safari/Chrome */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* IE/Edge */
-}
+        /* Twitch Embed responsiv */
+        #twitch-stream .twitch-embed-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Ratio */
+            height: 0;
+            overflow: hidden;
+            width: 100%;
+        }
 
-.modal.hard-edge {
-    background: #0d0e23;
-    border-radius: 0;
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    color: #fff;
+        #twitch-stream .twitch-embed-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
-    /* Metallischer Rahmen */
-    border: 6px solid; /* doppelt so dick */
-    border-image-slice: 1;
-    border-image-source: linear-gradient(135deg, #464545, #a3a3a3, #726e6d);
+        .modal,
+        .modal * {
+            user-select: none;
+            /* Text nicht markierbar */
+            -webkit-user-select: none;
+            /* Safari/Chrome */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* IE/Edge */
+        }
 
-    position: relative; /* fÃ¼r X-Button falls benÃ¶tigt */
-}
-/* Header */
-.modal-top {
-    display: flex;
-    gap: 15px;
-    padding: 20px;
-    background: #130e60;  /* Header dunkelblau */
-    align-items: center;
+        .modal.hard-edge {
+            background: #0d0e23;
+            border-radius: 0;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: #fff;
 
-    /* Metallischer Border unten */
-    border-bottom: 3px solid;
-    border-image-slice: 1;
-    border-image-source: linear-gradient(90deg, #a3a3a3, #464545, #726e6d);
-}
+            /* Metallischer Rahmen */
+            border: 6px solid;
+            /* doppelt so dick */
+            border-image-slice: 1;
+            border-image-source: linear-gradient(135deg, #464545, #a3a3a3, #726e6d);
 
-.modal-left {
-    flex: 1;
-}
+            position: relative;
+            /* fÃ¼r X-Button falls benÃ¶tigt */
+        }
 
-.modal-header {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: clamp(1rem, 2vw, 1.5rem); /* deutlich grÃ¶ÃŸer */
-    color: #f0f0f0;
-    white-space: nowrap;
-    overflow: hidden;
-}
+        /* Header */
+        .modal-top {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: #130e60;
+            /* Header dunkelblau */
+            align-items: center;
 
-.modal-right-gif {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: auto; /* HÃ¶he via JS gesetzt */
-    display: flex;
-    align-items: stretch;
-    overflow: visible; /* damit Border sichtbar ist */
-}
+            /* Metallischer Border unten */
+            border-bottom: 3px solid;
+            border-image-slice: 1;
+            border-image-source: linear-gradient(90deg, #a3a3a3, #464545, #726e6d);
+        }
 
-.modal-right-gif img {
-    height: 100%;   /* volle ContainerhÃ¶he, also exakt HeaderhÃ¶he */
-    width: auto;
-    object-fit: cover;
-}
-/* GIF bei kleinen Bildschirmen ausblenden */
-@media (max-width: 700px) {
-    .modal-right-gif {
-        display: none;
-    }
-}
+        .modal-left {
+            flex: 1;
+        }
 
-/* Untere + linke "Border" via Pseudo-Element */
-.modal-right-gif::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 100%;    /* untere Border */
-    height: 8px;    /* Dicke */
-    background: #141414;
-}
+        .modal-header {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            /* deutlich grÃ¶ÃŸer */
+            color: #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+        }
 
-.modal-right-gif::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 8px;    /* linke Border */
-    height: 100%;   /* gesamte HÃ¶he */
-    background: linear-gradient(to bottom, #464545, #726e6d, #141414);
-}
+        .modal-right-gif {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: auto;
+            /* HÃ¶he via JS gesetzt */
+            display: flex;
+            align-items: stretch;
+            overflow: visible;
+            /* damit Border sichtbar ist */
+        }
 
-.modal-right-gif,
-.image-wrapper,
-.modal-left-content {
-    box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
-}
-/* Untere Sektion */
-.modal-bottom {
-    display: flex;
-    gap: 0; /* kein Abstand zwischen Bild und Textbereich */
-    padding: 0;
-    border-top: 6px solid; /* doppelt so dick wie vorher */
-    border-image-slice: 1;
-    border-image-source: linear-gradient(135deg, #c0c0c0, #ffffff, #808080);
-}
-.modal-bottom {
-    display: flex;
-    border-top: 3px solid #ff2e2e; /* Metall-Border */
-}
+        .modal-right-gif img {
+            height: 100%;
+            /* volle ContainerhÃ¶he, also exakt HeaderhÃ¶he */
+            width: auto;
+            object-fit: cover;
+        }
 
-/* Text Content 2/3 */
-.modal-left-content {
-    flex: 2;
-    position: relative;
-    background-color: #0d0e23;
-    overflow: hidden;
-    padding: 20px;
-}
+        /* GIF bei kleinen Bildschirmen ausblenden */
+        @media (max-width: 700px) {
+            .modal-right-gif {
+                display: none;
+            }
+        }
 
-.modal-close {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: #0d0e23; /* dunkler Hintergrund */
-    color: #ff2e2e; /* klassisches Rot */
-    border: 2px solid #ff2e2e; /* alte GUI-Optik */
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 2rem; /* grÃ¶ÃŸerer X */
-    font-weight: bold;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border-radius: 0; /* quadratisch, oldschool */
-    box-shadow: inset -3px -3px 0 #fff, inset 3px 3px 0 #000; /* altmodischer 3D-Effekt */
-    z-index: 10;
-}
+        /* Untere + linke "Border" via Pseudo-Element */
+        .modal-right-gif::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            /* untere Border */
+            height: 8px;
+            /* Dicke */
+            background: #141414;
+        }
 
-.modal-close:hover {
-    background-color: #ff2e2e;
-    color: #fff;
-}
+        .modal-right-gif::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            /* linke Border */
+            height: 100%;
+            /* gesamte HÃ¶he */
+            background: linear-gradient(to bottom, #464545, #726e6d, #141414);
+        }
 
-/* Hintergrundbild nur im Text Content */
-.modal-left-content::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('rpd.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.1;
-    pointer-events: none;
-    z-index: 0;
-}
+        .modal-right-gif,
+        .image-wrapper,
+        .modal-left-content {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
+        }
 
-/* Text Ã¼ber dem Hintergrund */
-.modal-left-content * {
-    position: relative;
-    z-index: 1;
-}
+        /* Untere Sektion */
+        .modal-bottom {
+            display: flex;
+            gap: 0;
+            /* kein Abstand zwischen Bild und Textbereich */
+            padding: 0;
+            border-top: 6px solid;
+            /* doppelt so dick wie vorher */
+            border-image-slice: 1;
+            border-image-source: linear-gradient(135deg, #c0c0c0, #ffffff, #808080);
+        }
 
-#modalTextWrapper {
-    position: relative;
-    z-index: 1; /* sicher Ã¼ber dem Hintergrundbild */
-}
+        .modal-bottom {
+            display: flex;
+            border-top: 3px solid #ff2e2e;
+            /* Metall-Border */
+        }
 
-/* Image rechts 1/3 */
-.image-wrapper {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-}
+        /* Text Content 2/3 */
+        .modal-left-content {
+            flex: 2;
+            position: relative;
+            background-color: #0d0e23;
+            overflow: hidden;
+            padding: 20px;
+        }
 
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-/* Responsive */
-@media(max-width:700px){
-    .modal-bottom {
-        flex-direction: column;
-    }
-    .image-wrapper {
-        display: none;
-    }
-}
+        .modal-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #0d0e23;
+            /* dunkler Hintergrund */
+            color: #ff2e2e;
+            /* klassisches Rot */
+            border: 2px solid #ff2e2e;
+            /* alte GUI-Optik */
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 2rem;
+            /* grÃ¶ÃŸerer X */
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border-radius: 0;
+            /* quadratisch, oldschool */
+            box-shadow: inset -3px -3px 0 #fff, inset 3px 3px 0 #000;
+            /* altmodischer 3D-Effekt */
+            z-index: 10;
+        }
 
-/* Typewriter Animation */
-@keyframes blinkCursor {
-    0%, 100% { border-color: transparent; }
-    50% { border-color: #ff2e2e; }
-}
+        .modal-close:hover {
+            background-color: #ff2e2e;
+            color: #fff;
+        }
 
+        /* Hintergrundbild nur im Text Content */
+        .modal-left-content::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url('rpd.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-.status {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
+        /* Text Ã¼ber dem Hintergrund */
+        .modal-left-content * {
+            position: relative;
+            z-index: 1;
+        }
 
-.status.done { background: #2ecc71; color: #000; }
-.status.open { background: #555; }
+        #modalTextWrapper {
+            position: relative;
+            z-index: 1;
+            /* sicher Ã¼ber dem Hintergrundbild */
+        }
 
-/* Animation */
-@keyframes pop {
-    from { opacity: 0; transform: scale(.9); }
-    to { opacity: 1; transform: scale(1); }
-}
+        /* Image rechts 1/3 */
+        .image-wrapper {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
 
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-@media(max-width: 1400px){
- .fade-in svg text {
-        font-size: 20vw; /* grÃ¶ÃŸere Schrift auf kleinen Handys */
-    }
-}
+        /* Responsive */
+        @media(max-width:700px) {
+            .modal-bottom {
+                flex-direction: column;
+            }
 
-/* MOBILE */
-@media(max-width: 700px){
-    
-    #startOverlay svg text {
-        font-size: 45vw; /* kleiner auf Smartphones */
-    }
+            .image-wrapper {
+                display: none;
+            }
+        }
 
-.game-title {
-        font-size: clamp(22px, 6vw, 40px);
-    }
+        /* Typewriter Animation */
+        @keyframes blinkCursor {
 
-.grid {
-        padding: 0 15px; /* etwas enger auf kleinen GerÃ¤ten */
-    }
+            0%,
+            100% {
+                border-color: transparent;
+            }
 
-    h1 svg text {
-        font-size: 60vw !important;
-    }
-
-.fade-in svg text {
-        font-size: 35vw; /* grÃ¶ÃŸere Schrift auf kleinen Handys */
-    }
-
-#twitch-stream {
-        margin-top: 30px; /* weniger Abstand auf mobilen GerÃ¤ten */
-        padding: 30px 0;
-    }
-     .twitch-logo {
-        height: 1.3em;
-    }
-  .modal-content {
-        grid-template-columns: 1fr; /* stapelt Text und Bild */
-    }
-    .image-wrapper {
-        width: 100%;
-        height: auto;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
-        margin-top: 15px;
-    }
-    .status {
-        font-size: 0.85rem;
-        padding: 5px 10px;
-    }
-}
-
-.status {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-/* Ãœberschrift nur fade-in */
-.fade-in {
-  opacity: 0;
-  transition: opacity 2.5s ease;
-}
-
-body.start .fade-in {
-  opacity: 1;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.open-game {
-    position: relative;
-}
-
-.open-game::before {
-    content: '!';
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #ff0000;
-    color: #ffffff;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-    border: 2px solid;
-    border-color: #ffffff #000000 #000000 #ffffff;
-    box-shadow: inset 1px 1px 0 #ff8080;
-    z-index: 5;
-}
+            50% {
+                border-color: #ff2e2e;
+            }
+        }
 
 
-/* Tablets & kleinere Laptops */
-@media (max-width: 900px) {
-  #startOverlay text.start-stream {
-    font-size: 3.5vw !important;
-  }
-}
+        .status {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
 
-/* Smartphones im Querformat */
-@media (max-width: 600px) {
-  #startOverlay text.start-stream {
-    font-size: 4.8vw !important;
-  }
-}
+        .status.done {
+            background: #2ecc71;
+            color: #000;
+        }
 
-/* Smartphones im Hochformat */
-@media (max-width: 420px) {
-  #startOverlay text.start-stream {
-    font-size: 6vw !important;
-  }
-}
+        .status.open {
+            background: #555;
+        }
 
-text tspan {
-  dominant-baseline: middle;
-  alignment-baseline: middle;
-}
+        /* Animation */
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: scale(.9);
+            }
 
-.status.done { background: #2ecc71; color: #000; }
-.status.open { background: #555; }
-
-@keyframes pop {
-    from { opacity: 0; transform: scale(.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes fadePulse {
-  0%   { opacity: 0.2; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.2; }
-}
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
 
-@media(max-width: 700px){
-    .modal-content { grid-template-columns: 1fr; }
-}
+        @media(max-width: 1400px) {
+            .fade-in svg text {
+                font-size: 20vw;
+                /* grÃ¶ÃŸere Schrift auf kleinen Handys */
+            }
+        }
 
-</style>
+        /* MOBILE */
+        @media(max-width: 700px) {
+
+            #startOverlay svg text {
+                font-size: 45vw;
+                /* kleiner auf Smartphones */
+            }
+
+            .game-title {
+                font-size: clamp(22px, 6vw, 40px);
+            }
+
+            .grid {
+                padding: 0 15px;
+                /* etwas enger auf kleinen GerÃ¤ten */
+            }
+
+            h1 svg text {
+                font-size: 60vw !important;
+            }
+
+            .fade-in svg text {
+                font-size: 35vw;
+                /* grÃ¶ÃŸere Schrift auf kleinen Handys */
+            }
+
+            #twitch-stream {
+                margin-top: 30px;
+                /* weniger Abstand auf mobilen GerÃ¤ten */
+                padding: 30px 0;
+            }
+
+            .twitch-logo {
+                height: 1.3em;
+            }
+
+            .modal-content {
+                grid-template-columns: 1fr;
+                /* stapelt Text und Bild */
+            }
+
+            .image-wrapper {
+                width: 100%;
+                height: auto;
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.2);
+                margin-top: 15px;
+            }
+
+            .status {
+                font-size: 0.85rem;
+                padding: 5px 10px;
+            }
+        }
+
+        .status {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* Ãœberschrift nur fade-in */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2.5s ease;
+        }
+
+        body.start .fade-in {
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .open-game {
+            position: relative;
+        }
+
+        .open-game::before {
+            content: '!';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ff0000;
+            color: #ffffff;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            border: 2px solid;
+            border-color: #ffffff #000000 #000000 #ffffff;
+            box-shadow: inset 1px 1px 0 #ff8080;
+            z-index: 5;
+        }
+
+
+        /* Tablets & kleinere Laptops */
+        @media (max-width: 900px) {
+            #startOverlay text.start-stream {
+                font-size: 3.5vw !important;
+            }
+        }
+
+        /* Smartphones im Querformat */
+        @media (max-width: 600px) {
+            #startOverlay text.start-stream {
+                font-size: 4.8vw !important;
+            }
+        }
+
+        /* Smartphones im Hochformat */
+        @media (max-width: 420px) {
+            #startOverlay text.start-stream {
+                font-size: 6vw !important;
+            }
+        }
+
+        text tspan {
+            dominant-baseline: middle;
+            alignment-baseline: middle;
+        }
+
+        .status.done {
+            background: #2ecc71;
+            color: #000;
+        }
+
+        .status.open {
+            background: #555;
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: scale(.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadePulse {
+            0% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+
+        @media(max-width: 700px) {
+            .modal-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<div id="startOverlay">
-  <svg viewBox="0 0 1200 550" xmlns="http://www.w3.org/2000/svg"
-       style="width:100%; max-width:1200px; height:auto;">
+    <div id="startOverlay">
+        <svg viewBox="0 0 1200 550" xmlns="http://www.w3.org/2000/svg"
+            style="width:100%; max-width:1200px; height:auto;">
 
-    <!-- Haupttitel: Resident Evil: M -->
-    <text x="50%" 
-          y="40%" 
-          font-family="ResidentEvil7" 
-          font-size="12vw"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          fill="#f0f0f0"
-          style="filter: drop-shadow(0 0 6px #000000);">
+            <!-- Haupttitel: Resident Evil: M -->
+            <text x="50%" y="40%" font-family="ResidentEvil7" font-size="12vw" text-anchor="middle"
+                dominant-baseline="middle" fill="#f0f0f0" style="filter: drop-shadow(0 0 6px #000000);">
 
-      <tspan fill="#ff2e2e">R</tspan>esident 
-      <tspan fill="#ff2e2e">E</tspan>vil: M
-    </text>
+                <tspan fill="#ff2e2e">R</tspan>esident
+                <tspan fill="#ff2e2e">E</tspan>vil: M
+            </text>
 
-    <!-- Untertitel: START STREAM -->
-    <text x="50%" 
-          y="80%" 
-          class="start-stream"
-          font-family="Arial, sans-serif"
-          font-size="1.2vw"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          fill="white"
-          font-weight="bold"
-          letter-spacing="0.22em"
-          style="
+            <!-- Untertitel: START STREAM -->
+            <text x="50%" y="80%" class="start-stream" font-family="Arial, sans-serif" font-size="1.2vw"
+                text-anchor="middle" dominant-baseline="middle" fill="white" font-weight="bold" letter-spacing="0.22em"
+                style="
             filter: 
               drop-shadow(0 0 4px black)
               drop-shadow(0 0 8px black)
               drop-shadow(0 0 14px black);
             animation: fadePulse 3s ease-in-out infinite;
           ">
-      START STREAM
-    </text>
+                START STREAM
+            </text>
 
-  </svg>
-</div>
+        </svg>
+    </div>
 
 
 
     <div id="top-section">
-<div style="text-align:center; margin-bottom:35px; margin-top:35px" class="fade-in">
-  <svg viewBox="0 0 1800 300" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1200px; height:auto;">
-    <!-- Haupttext -->
-    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7" fill="#f0f0f0" font-size="140">
-        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">H</tspan>ollylp 
-        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">R</tspan>esident 
-        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">E</tspan>vil 
-        <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">M</tspan>arathon
-    </text>
-  </svg>
-</div>
-<div class="grid" id="grid">
-
-<div class="game" data-id="re1" data-img="Resident Evil 1.jpg"><img src="Resident Evil 1.jpg"><div class="game-title">Resident Evil 1</div></div>
-<div class="game" data-id="re2" data-img="Resident Evil 2.png"><img src="Resident Evil 2.png"><div class="game-title">Resident Evil 2</div></div>
-<div class="game" data-id="re3" data-img="Resident Evil 3.jpg"><img src="Resident Evil 3.jpg"><div class="game-title">Resident Evil 3</div></div>
-<div class="game" data-id="re4" data-img="Resident Evil 4.jpg"><img src="Resident Evil 4.jpg"><div class="game-title">Resident Evil 4</div></div>
-<div class="game" data-id="zero" data-img="Resident Evil Zero.jpg"><img src="Resident Evil Zero.jpg"><div class="game-title">Resident Evil Zero</div></div>
-
-<div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpg"><img src="Resident Evil 1 Remake.jpg"><div class="game-title">Resident Evil 1 Remake</div></div>
-<div class="game" data-id="re2r" data-img="Resident Evil 2 Remake.jpg"><img src="Resident Evil 2 Remake.jpg"><div class="game-title">Resident Evil 2 Remake</div></div>
-<div class="game" data-id="re3r" data-img="Resident Evil 3 Remake.jpg"><img src="Resident Evil 3 Remake.jpg"><div class="game-title">Resident Evil 3 Remake</div></div>
-<div class="game" data-id="re4r" data-img="Resident Evil 4 Remake.png"><img src="Resident Evil 4 Remake.png"><div class="game-title">Resident Evil 4 Remake</div></div>
-
-<div class="game" data-id="re5" data-img="Reisdent Evil 5.jfif"><img src="Reisdent Evil 5.jfif"><div class="game-title">Resident Evil 5</div></div>
-<div class="game" data-id="re6" data-img="Resident Evil 6.png"><img src="Resident Evil 6.png"><div class="game-title">Resident Evil 6</div></div>
-<div class="game" data-id="re7" data-img="Resident Evil 7.jpg"><img src="Resident Evil 7.jpg"><div class="game-title">Resident Evil 7</div></div>
-<div class="game" data-id="re8" data-img="Resident Evil Village.jpg"><img src="Resident Evil Village.jpg"><div class="game-title">Resident Evil Village</div></div>
-
-<div class="game" data-id="cv" data-img="Resident Evil Code Veronica.jpg"><img src="Resident Evil Code Veronica.jpg"><div class="game-title">Resident Evil Code: Veronica</div></div>
-
-<div class="game" data-id="rev1" data-img="Resident Evil Revelation 1.png"><img src="Resident Evil Revelation 1.png"><div class="game-title">Resident Evil Revelations</div></div>
-<div class="game" data-id="rev2" data-img="Resident Evil Revelations 2.jpg"><img src="Resident Evil Revelations 2.jpg"><div class="game-title">Resident Evil Revelations 2</div></div>
-
-<div class="game" data-id="dead" data-img="Resident Evil Dead Aim.webp"><img src="Resident Evil Dead Aim.webp"><div class="game-title">Resident Evil Dead Aim</div></div>
-
-<div class="game" data-id="ob1" data-img="Resident Evil Outbreak 1.jpg"><img src="Resident Evil Outbreak 1.jpg"><div class="game-title">Resident Evil Outbreak</div></div>
-<div class="game" data-id="ob2" data-img="Resident Evil Outbreak 2.jpg"><img src="Resident Evil Outbreak 2.jpg"><div class="game-title">Resident Evil Outbreak File 2</div></div>
-
-<div class="game" data-id="survivor" data-img="Reident Evil Survivor.jfif"><img src="Reident Evil Survivor.jfif"><div class="game-title">Resident Evil Survivor</div></div>
-<div class="game" data-id="darkside" data-img="Resident Evil The Darkside Chronicles.jpg"><img src="Resident Evil The Darkside Chronicles.jpg"><div class="game-title">Resident Evil The Darkside Chronicles</div></div>
-<div class="game" data-id="gaiden" data-img="Resident Evil Gaiden.webp"><img src="Resident Evil Gaiden.webp"><div class="game-title">Resident Evil Gaiden</div></div>
-
-</div>
-</div>
-
-<!-- âœ… MODAL -->
-<div class="modal-backdrop" id="modal">
-    <div class="modal hard-edge">
-        <!-- Obere Sektion: Header + GIF -->
-        <div class="modal-top">
-            <div class="modal-left">
-                <div class="modal-header" id="modalTitle"></div>
-            </div>
-            <button class="modal-close" onclick="closeModal()">X</button>
+        <div style="text-align:center; margin-bottom:35px; margin-top:35px" class="fade-in">
+            <svg viewBox="0 0 1800 300" xmlns="http://www.w3.org/2000/svg"
+                style="width:100%; max-width:1200px; height:auto;">
+                <!-- Haupttext -->
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="ResidentEvil7"
+                    fill="#f0f0f0" font-size="140">
+                    <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">H</tspan>ollylp
+                    <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">R</tspan>esident
+                    <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">E</tspan>vil
+                    <tspan fill="#ff2e2e" alignment-baseline="middle" dy="0">M</tspan>arathon
+                </text>
+            </svg>
         </div>
-<function_calls>
-<invoke name="artifacts">
-<parameter name="old_str">        <!-- Untere Sektion: Content + Bild --></parameter>
-<parameter name="new_str">        <!-- Untere Sektion: Content + Bild -->
-<div class="modal-bottom">
-<div class="modal-left-content">
-<div id="modalTextWrapper">
-<div id="modalStatus"></div>
-<div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
-</div>
-</div>
-<div class="image-wrapper">
-<img id="modalImage" src="">
-</div>
-</div>
- </div>
-</div>
-<section id="twitch-stream" style="margin-top:30px; text-align:center;">
-  <!-- Live auf Twitch mit Logo rechts -->
-  <a href="https://www.twitch.tv/h0llylp" target="_blank" 
-     style="display:inline-flex; align-items:center; gap:0.5em; text-decoration:none; justify-content:center; margin-bottom:15px; flex-wrap:wrap;">
-    <h2 style="color:#9146FF; margin:0; font-size:2rem; line-height:1;">Live auf Twitch</h2>
-    <img src="twitch.png" alt="Twitch" style="height:2em; width:auto; display:block;">
-  </a>
-  <!-- Player -->
-  <div class="twitch-embed-wrapper">
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
-      <iframe
-        src="https://player.twitch.tv/?channel=h0llylp&parent=h0llylpmarathon.com"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
-        allowfullscreen>
-      </iframe>
+
+        <div style="text-align:center; margin:30px 0;" class="fade-in">
+            <button id="tierlistBtn" style="
+        font-family: 'Compacta', sans-serif;
+        font-size: 1.5rem;
+        display: none;
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #ff2e2e, #a32d0f);
+        color: #fff;
+        border: 3px solid #fff;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255,46,46,0.5);
+        transition: all 0.3s ease;
+        letter-spacing: 2px;
+    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                🏆 TIERLIST ANZEIGEN
+            </button>
+        </div>
+
+        <div class="grid" id="grid">
+
+            <div class="game" data-id="re1" data-img="Resident Evil 1.jpg"><img src="Resident Evil 1.jpg">
+                <div class="game-title">Resident Evil 1</div>
+            </div>
+            <div class="game" data-id="re2" data-img="Resident Evil 2.png"><img src="Resident Evil 2.png">
+                <div class="game-title">Resident Evil 2</div>
+            </div>
+            <div class="game" data-id="re3" data-img="Resident Evil 3.jpg"><img src="Resident Evil 3.jpg">
+                <div class="game-title">Resident Evil 3</div>
+            </div>
+            <div class="game" data-id="re4" data-img="Resident Evil 4.jpg"><img src="Resident Evil 4.jpg">
+                <div class="game-title">Resident Evil 4</div>
+            </div>
+            <div class="game" data-id="zero" data-img="Resident Evil Zero.jpg"><img src="Resident Evil Zero.jpg">
+                <div class="game-title">Resident Evil Zero</div>
+            </div>
+
+            <div class="game" data-id="re1r" data-img="Resident Evil 1 Remake.jpg"><img
+                    src="Resident Evil 1 Remake.jpg">
+                <div class="game-title">Resident Evil 1 Remake</div>
+            </div>
+            <div class="game" data-id="re2r" data-img="Resident Evil 2 Remake.jpg"><img
+                    src="Resident Evil 2 Remake.jpg">
+                <div class="game-title">Resident Evil 2 Remake</div>
+            </div>
+            <div class="game" data-id="re3r" data-img="Resident Evil 3 Remake.jpg"><img
+                    src="Resident Evil 3 Remake.jpg">
+                <div class="game-title">Resident Evil 3 Remake</div>
+            </div>
+            <div class="game" data-id="re4r" data-img="Resident Evil 4 Remake.png"><img
+                    src="Resident Evil 4 Remake.png">
+                <div class="game-title">Resident Evil 4 Remake</div>
+            </div>
+
+            <div class="game" data-id="re5" data-img="Reisdent Evil 5.jfif"><img src="Reisdent Evil 5.jfif">
+                <div class="game-title">Resident Evil 5</div>
+            </div>
+            <div class="game" data-id="re6" data-img="Resident Evil 6.png"><img src="Resident Evil 6.png">
+                <div class="game-title">Resident Evil 6</div>
+            </div>
+            <div class="game" data-id="re7" data-img="Resident Evil 7.jpg"><img src="Resident Evil 7.jpg">
+                <div class="game-title">Resident Evil 7</div>
+            </div>
+            <div class="game" data-id="re8" data-img="Resident Evil Village.jpg"><img src="Resident Evil Village.jpg">
+                <div class="game-title">Resident Evil Village</div>
+            </div>
+
+            <div class="game" data-id="cv" data-img="Resident Evil Code Veronica.jpg"><img
+                    src="Resident Evil Code Veronica.jpg">
+                <div class="game-title">Resident Evil Code: Veronica</div>
+            </div>
+
+            <div class="game" data-id="rev1" data-img="Resident Evil Revelation 1.png"><img
+                    src="Resident Evil Revelation 1.png">
+                <div class="game-title">Resident Evil Revelations</div>
+            </div>
+            <div class="game" data-id="rev2" data-img="Resident Evil Revelations 2.jpg"><img
+                    src="Resident Evil Revelations 2.jpg">
+                <div class="game-title">Resident Evil Revelations 2</div>
+            </div>
+
+            <div class="game" data-id="dead" data-img="Resident Evil Dead Aim.webp"><img
+                    src="Resident Evil Dead Aim.webp">
+                <div class="game-title">Resident Evil Dead Aim</div>
+            </div>
+
+            <div class="game" data-id="ob1" data-img="Resident Evil Outbreak 1.jpg"><img
+                    src="Resident Evil Outbreak 1.jpg">
+                <div class="game-title">Resident Evil Outbreak</div>
+            </div>
+            <div class="game" data-id="ob2" data-img="Resident Evil Outbreak 2.jpg"><img
+                    src="Resident Evil Outbreak 2.jpg">
+                <div class="game-title">Resident Evil Outbreak File 2</div>
+            </div>
+
+            <div class="game" data-id="survivor" data-img="Reident Evil Survivor.jfif"><img
+                    src="Reident Evil Survivor.jfif">
+                <div class="game-title">Resident Evil Survivor</div>
+            </div>
+            <div class="game" data-id="darkside" data-img="Resident Evil The Darkside Chronicles.jpg"><img
+                    src="Resident Evil The Darkside Chronicles.jpg">
+                <div class="game-title">Resident Evil The Darkside Chronicles</div>
+            </div>
+            <div class="game" data-id="gaiden" data-img="Resident Evil Gaiden.webp"><img
+                    src="Resident Evil Gaiden.webp">
+                <div class="game-title">Resident Evil Gaiden</div>
+            </div>
+
+        </div>
     </div>
-  </div>
-</section>
-<script>
-const games = document.querySelectorAll(".game");
-const modal = document.getElementById("modal");
-const modalImage = document.getElementById("modalImage");
-const recordingDisplay = document.getElementById("recordingLinkDisplay");
 
-const selectSound = new Audio('resident_evil_3_menu.mp3');
-selectSound.volume = 0.1;
+    <!-- ✅ TIERLIST MODAL -->
+    <div class="modal-backdrop" id="tierlistModal">
+        <div class="modal hard-edge" style="max-width: 1200px; width: 95%;">
+            <div class="modal-top">
+                <div class="modal-left">
+                    <div class="modal-header">Resident Evil Tierlist</div>
+                </div>
+                <button class="modal-close" onclick="closeTierlistModal()">X</button>
+            </div>
+            <div class="modal-bottom" style="display: block; padding: 0;">
+                <div id="tierlistContent"
+                    style="background: #0d0e23; padding: 20px; overflow-y: auto; max-height: 70vh;">
+                    <!-- Tierlist wird hier eingefügt -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-const hoverSound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
-hoverSound.volume = 0.1;
+    <!-- ✅ MODAL -->
+    <div class="modal-backdrop" id="modal">
+        <div class="modal hard-edge">
+            <!-- Obere Sektion: Header + GIF -->
+            <div class="modal-top">
+                <div class="modal-left">
+                    <div class="modal-header" id="modalTitle"></div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">X</button>
+            </div>
 
-const typeSound = new Audio('typewriter.mp3'); // Sound fÃ¼r jeden Buchstaben
-typeSound.volume = 0.2; // LautstÃ¤rke anpassen
 
-// Status fÃ¼r alle Spiele
-const data = {
-    re1: "done", re2: "done", re3: "done", re4: "open", zero: "open",
-    re1r: "open", re2r: "open", re3r: "open", re4r: "open",
-    re5: "open", re6: "open", re7: "open", re8: "open",
-    cv: "open", rev1: "open", rev2: "open", dead: "open",
-    ob1: "open", ob2: "open", survivor: "done",
-    darkside: "open", gaiden: "open"
-};
+            <!-- Untere Sektion: Content + Bild -->
+            <div class="modal-bottom">
+                <div class="modal-left-content">
+                    <div id="modalTextWrapper">
+                        <div id="modalStatus"></div>
+                        <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
+                    </div>
+                </div>
+                <div class="image-wrapper">
+                    <img id="modalImage" src="">
+                </div>
+            </div>
 
-// Aufzeichnungslinks
-const recordings = {
-    re1: "https://www.twitch.tv/videos/2638659125",
-    re2: "https://www.twitch.tv/videos/2639472867",
-    re3: "https://www.twitch.tv/videos/2640291764?t=0h0m1s",
-    survivor: "https://www.twitch.tv/videos/2640291764?t=5h4m2s"
-};
+        </div>
+    </div>
 
-// âœ… Klasse 'done' direkt beim Laden setzen
-games.forEach(game => {
-    const id = game.dataset.id;
-    if(data[id] === "done") {
-        game.classList.add("done");
-    } else {
-        game.classList.add("open-game");
-    }
-});
+    <!-- âœ… MODAL -->
+    <div class="modal-backdrop" id="modal">
+        <div class="modal hard-edge">
+            <!-- Obere Sektion: Header + GIF -->
+            <div class="modal-top">
+                <div class="modal-left">
+                    <div class="modal-header" id="modalTitle"></div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">X</button>
+            </div>
+            <function_calls>
+                <invoke name="artifacts">
+                    <parameter name="old_str"> <!-- Untere Sektion: Content + Bild --></parameter>
+                    <parameter name="new_str"> <!-- Untere Sektion: Content + Bild -->
+                        <div class="modal-bottom">
+                            <div class="modal-left-content">
+                                <div id="modalTextWrapper">
+                                    <div id="modalStatus"></div>
+                                    <div id="recordingLinkDisplay" style="margin-top:10px; font-weight:bold;"></div>
+                                </div>
+                            </div>
+                            <div class="image-wrapper">
+                                <img id="modalImage" src="">
+                            </div>
+                        </div>
+        </div>
+    </div>
+    <section id="twitch-stream" style="margin-top:30px; text-align:center;">
+        <!-- Live auf Twitch mit Logo rechts -->
+        <a href="https://www.twitch.tv/h0llylp" target="_blank"
+            style="display:inline-flex; align-items:center; gap:0.5em; text-decoration:none; justify-content:center; margin-bottom:15px; flex-wrap:wrap;">
+            <h2 style="color:#9146FF; margin:0; font-size:2rem; line-height:1;">Live auf Twitch</h2>
+            <img src="twitch.png" alt="Twitch" style="height:2em; width:auto; display:block;">
+        </a>
+        <!-- Player -->
+        <div class="twitch-embed-wrapper">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; width: 100%;">
+                <iframe src="https://player.twitch.tv/?channel=h0llylp&parent=h0llylpmarathon.com"
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+    <script>
+        const games = document.querySelectorAll(".game");
+        const modal = document.getElementById("modal");
+        const modalImage = document.getElementById("modalImage");
+        const recordingDisplay = document.getElementById("recordingLinkDisplay");
 
-// Overlay starten
-const startOverlay = document.getElementById('startOverlay');
-const introSound = new Audio('resident-evil-intro.mp3');
-introSound.volume = 0.15;
+        const selectSound = new Audio('resident_evil_3_menu.mp3');
+        selectSound.volume = 0.1;
 
-startOverlay.addEventListener('click', () => {
-    introSound.currentTime = 0;
-    introSound.play();
-    startOverlay.classList.add('flash');
+        const hoverSound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
+        hoverSound.volume = 0.1;
 
-    startOverlay.addEventListener('animationend', () => {
-        startOverlay.classList.remove('flash');
-        startOverlay.classList.add('fade-out');
-        startOverlay.addEventListener('transitionend', () => {
-            startOverlay.style.display = 'none';
-            document.body.classList.add('start');
-            const gridItems = document.querySelectorAll(".game");
-            gridItems.forEach((item, index) => {
-                setTimeout(() => item.classList.add('fade-in'), index * 100);
+        const typeSound = new Audio('typewriter.mp3'); // Sound fÃ¼r jeden Buchstaben
+        typeSound.volume = 0.2; // LautstÃ¤rke anpassen
+
+        // Status fÃ¼r alle Spiele
+        const data = {
+            re1: "done", re2: "done", re3: "done", re4: "open", zero: "open",
+            re1r: "open", re2r: "open", re3r: "open", re4r: "open",
+            re5: "open", re6: "open", re7: "open", re8: "open",
+            cv: "open", rev1: "open", rev2: "open", dead: "open",
+            ob1: "open", ob2: "open", survivor: "done",
+            darkside: "open", gaiden: "open"
+        };
+
+        // Game Info für Tierlist
+        const gameInfo = {
+            re1: { title: "Resident Evil 1", img: "Resident Evil 1.jpg" },
+            re2: { title: "Resident Evil 2", img: "Resident Evil 2.png" },
+            re3: { title: "Resident Evil 3", img: "Resident Evil 3.jpg" },
+            survivor: { title: "RE Survivor", img: "Reident Evil Survivor.jfif" },
+            re4: { title: "Resident Evil 4", img: "Resident Evil 4.jpg" },
+            zero: { title: "Resident Evil Zero", img: "Resident Evil Zero.jpg" },
+            re1r: { title: "RE1 Remake", img: "Resident Evil 1 Remake.jpg" },
+            re2r: { title: "RE2 Remake", img: "Resident Evil 2 Remake.jpg" },
+            re3r: { title: "RE3 Remake", img: "Resident Evil 3 Remake.jpg" },
+            re4r: { title: "RE4 Remake", img: "Resident Evil 4 Remake.png" },
+            re5: { title: "Resident Evil 5", img: "Reisdent Evil 5.jfif" },
+            re6: { title: "Resident Evil 6", img: "Resident Evil 6.png" },
+            re7: { title: "Resident Evil 7", img: "Resident Evil 7.jpg" },
+            re8: { title: "Resident Evil Village", img: "Resident Evil Village.jpg" },
+            cv: { title: "Code: Veronica", img: "Resident Evil Code Veronica.jpg" },
+            rev1: { title: "Revelations", img: "Resident Evil Revelation 1.png" },
+            rev2: { title: "Revelations 2", img: "Resident Evil Revelations 2.jpg" },
+            dead: { title: "Dead Aim", img: "Resident Evil Dead Aim.webp" },
+            ob1: { title: "Outbreak", img: "Resident Evil Outbreak 1.jpg" },
+            ob2: { title: "Outbreak File 2", img: "Resident Evil Outbreak 2.jpg" },
+            darkside: { title: "Darkside Chronicles", img: "Resident Evil The Darkside Chronicles.jpg" },
+            gaiden: { title: "Gaiden", img: "Resident Evil Gaiden.webp" }
+        };
+
+
+        const tierlistData = {
+            S: ['re3', 're2'],
+            A: ['re1'],
+            B: ['survivor'],
+            C: [],
+            D: []
+        };
+
+
+        // Aufzeichnungslinks
+        const recordings = {
+            re1: "https://www.twitch.tv/videos/2638659125",
+            re2: "https://www.twitch.tv/videos/2639472867",
+            re3: "https://www.twitch.tv/videos/2640291764?t=0h0m1s",
+            survivor: "https://www.twitch.tv/videos/2640291764?t=5h4m2s"
+        };
+
+        // âœ… Klasse 'done' direkt beim Laden setzen
+        games.forEach(game => {
+            const id = game.dataset.id;
+            if (data[id] === "done") {
+                game.classList.add("done");
+            } else {
+                game.classList.add("open-game");
+            }
+        });
+
+        // Tierlist Modal öffnen
+        const tierlistBtn = document.getElementById('tierlistBtn');
+        const tierlistModal = document.getElementById('tierlistModal');
+        const tierlistContent = document.getElementById('tierlistContent');
+
+        tierlistBtn.addEventListener('click', () => {
+            selectSound.currentTime = 0;
+            selectSound.play();
+
+            // Tierlist generieren
+            tierlistContent.innerHTML = '';
+
+            ['S', 'A', 'B', 'C', 'D'].forEach(tier => {
+                const row = document.createElement('div');
+                row.className = 'tier-row';
+
+                const label = document.createElement('div');
+                label.className = `tier-label ${tier}`;
+                label.textContent = tier;
+
+                const gamesContainer = document.createElement('div');
+                gamesContainer.className = 'tier-games';
+
+                // Spiele in der richtigen Reihenfolge einfügen
+                if (tierlistData[tier]) {
+                    tierlistData[tier].forEach(gameId => {
+                        if (gameInfo[gameId]) {
+                            const card = document.createElement('div');
+                            card.className = 'tier-game-card';
+
+                            const img = document.createElement('img');
+                            img.src = gameInfo[gameId].img;
+
+                            const title = document.createElement('div');
+                            title.className = 'tier-game-title';
+                            title.textContent = gameInfo[gameId].title;
+
+                            card.appendChild(img);
+                            card.appendChild(title);
+                            gamesContainer.appendChild(card);
+
+                            // Hover Sound
+                            card.addEventListener('mouseenter', () => {
+                                const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
+                                sound.volume = 0.05;
+                                sound.play();
+                            });
+                        }
+                    });
+                }
+
+                row.appendChild(label);
+                row.appendChild(gamesContainer);
+                tierlistContent.appendChild(row);
             });
-        }, { once: true });
-    }, { once: true });
-});
 
-// Sound fÃ¼r Modal-SchlieÃŸen
-const closeSound = new Audio('resident-evil-typewriter.mp3');
-closeSound.volume = 0.05;
+            tierlistModal.style.display = 'flex';
+        });
 
-function closeModal() {
-    modal.style.display = "none";
-    games.forEach(g => g.classList.remove("active"));
-
-    // Typewriter sofort stoppen
-    typewriterController.timers.forEach(t => clearTimeout(t));
-    typewriterController.timers = [];
-    typewriterController.active = false;
-
-    closeSound.currentTime = 0;
-    closeSound.play();
-}
-
-modal.addEventListener("click", e => {
-    if(e.target === modal) closeModal();
-});
-
-document.addEventListener("keydown", e => {
-    if(e.key === "Escape") closeModal();
-});
-
-const typewriterController = {
-    timers: [],
-    active: true,
-    currentLines: []
-};
-
-function skipTypewriter() {
-    // Timer lÃ¶schen
-    typewriterController.timers.forEach(t => clearTimeout(t));
-    typewriterController.timers = [];
-    typewriterController.active = false;
-
-    // Alles direkt anzeigen
-    if(typewriterController.currentLines.length > 0) {
-        recordingDisplay.innerHTML = typewriterController.currentLines
-            .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
-            .join("<br>");
-    }
-}
-
-modal.addEventListener("click", () => {
-    if(modal.style.display === "flex") skipTypewriter();
-});
-
-function skipTypewriter() {
-    // Timer lÃ¶schen
-    typewriterController.timers.forEach(t => clearTimeout(t));
-    typewriterController.timers = [];
-    typewriterController.active = false;
-
-    // Alles direkt anzeigen
-    if(typewriterController.currentLines.length > 0) {
-        recordingDisplay.innerHTML = typewriterController.currentLines
-            .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
-            .join("<br>");
-    }
-}
-
-function typeWriterHTML(element, htmlText, speed = 50, callback) {
-    // Alte Timer lÃ¶schen
-    
-    typewriterController.active = true;
-    typewriterController.timers.forEach(t => clearTimeout(t));
-    typewriterController.timers = [];
-
-    element.innerHTML = ""; // vorher leeren
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlText;
-    const nodes = Array.from(tempDiv.childNodes);
-
-    function typeNode(nodeIndex, charIndex) {
-        if (!typewriterController.active) return;
-        if (nodeIndex >= nodes.length) {
-            if(callback) callback();
-            return;
+        function closeTierlistModal() {
+            tierlistModal.style.display = 'none';
+            const closeSound = new Audio('resident-evil-typewriter.mp3');
+            closeSound.volume = 0.05;
+            closeSound.currentTime = 0;
+            closeSound.play();
         }
 
-        const node = nodes[nodeIndex];
+        // Auch bei Klick außerhalb schließen
+        tierlistModal.addEventListener('click', e => {
+            if (e.target === tierlistModal) closeTierlistModal();
+        });
 
-        if(node.nodeType === Node.TEXT_NODE) {
-            const char = node.textContent.charAt(charIndex);
-            element.innerHTML += char;
 
-            // âœ… Neuer Audio-Instanz fÃ¼r jeden Buchstaben
-            if(char.trim() !== "") {
-                if(typewriterController.active) {
-                    const sound = new Audio('typewriter.mp3');
-                    sound.volume = 0.1;
-                    sound.play();
+        // Overlay starten
+        const startOverlay = document.getElementById('startOverlay');
+        const introSound = new Audio('resident-evil-intro.mp3');
+        introSound.volume = 0.15;
+
+        startOverlay.addEventListener('click', () => {
+            introSound.currentTime = 0;
+            introSound.play();
+            startOverlay.classList.add('flash');
+
+            startOverlay.addEventListener('animationend', () => {
+                startOverlay.classList.remove('flash');
+                startOverlay.classList.add('fade-out');
+                startOverlay.addEventListener('transitionend', () => {
+                    startOverlay.style.display = 'none';
+                    document.body.classList.add('start');
+                    tierlistBtn.style.display = "";
+                    const gridItems = document.querySelectorAll(".game");
+                    gridItems.forEach((item, index) => {
+                        setTimeout(() => item.classList.add('fade-in'), index * 100);
+                    });
+                }, { once: true });
+            }, { once: true });
+        });
+
+        // Sound fÃ¼r Modal-SchlieÃŸen
+        const closeSound = new Audio('resident-evil-typewriter.mp3');
+        closeSound.volume = 0.05;
+
+        function closeModal() {
+            modal.style.display = "none";
+            games.forEach(g => g.classList.remove("active"));
+
+            // Typewriter sofort stoppen
+            typewriterController.timers.forEach(t => clearTimeout(t));
+            typewriterController.timers = [];
+            typewriterController.active = false;
+
+            closeSound.currentTime = 0;
+            closeSound.play();
+        }
+
+        modal.addEventListener("click", e => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape") closeModal();
+        });
+
+        const typewriterController = {
+            timers: [],
+            active: true,
+            currentLines: []
+        };
+
+        function skipTypewriter() {
+            // Timer lÃ¶schen
+            typewriterController.timers.forEach(t => clearTimeout(t));
+            typewriterController.timers = [];
+            typewriterController.active = false;
+
+            // Alles direkt anzeigen
+            if (typewriterController.currentLines.length > 0) {
+                recordingDisplay.innerHTML = typewriterController.currentLines
+                    .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
+                    .join("<br>");
+            }
+        }
+
+        modal.addEventListener("click", () => {
+            if (modal.style.display === "flex") skipTypewriter();
+        });
+
+        function skipTypewriter() {
+            // Timer lÃ¶schen
+            typewriterController.timers.forEach(t => clearTimeout(t));
+            typewriterController.timers = [];
+            typewriterController.active = false;
+
+            // Alles direkt anzeigen
+            if (typewriterController.currentLines.length > 0) {
+                recordingDisplay.innerHTML = typewriterController.currentLines
+                    .map(line => line) // HTML wird schon in typeWriterLinesInline genutzt
+                    .join("<br>");
+            }
+        }
+
+        function typeWriterHTML(element, htmlText, speed = 50, callback) {
+            // Alte Timer lÃ¶schen
+
+            typewriterController.active = true;
+            typewriterController.timers.forEach(t => clearTimeout(t));
+            typewriterController.timers = [];
+
+            element.innerHTML = ""; // vorher leeren
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlText;
+            const nodes = Array.from(tempDiv.childNodes);
+
+            function typeNode(nodeIndex, charIndex) {
+                if (!typewriterController.active) return;
+                if (nodeIndex >= nodes.length) {
+                    if (callback) callback();
+                    return;
+                }
+
+                const node = nodes[nodeIndex];
+
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const char = node.textContent.charAt(charIndex);
+                    element.innerHTML += char;
+
+                    // âœ… Neuer Audio-Instanz fÃ¼r jeden Buchstaben
+                    if (char.trim() !== "") {
+                        if (typewriterController.active) {
+                            const sound = new Audio('typewriter.mp3');
+                            sound.volume = 0.1;
+                            sound.play();
+                        }
+                    }
+
+                    charIndex++;
+                    let delay = char === "." ? 200 : speed;
+                    if (charIndex < node.textContent.length) {
+                        const t = setTimeout(() => typeNode(nodeIndex, charIndex), delay);
+                        typewriterController.timers.push(t);
+                    } else {
+                        typeNode(nodeIndex + 1, 0);
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tag = document.createElement(node.nodeName);
+                    for (let attr of node.attributes) tag.setAttribute(attr.name, attr.value);
+                    element.appendChild(tag);
+                    typeWriterHTML(tag, node.innerHTML, speed, () => typeNode(nodeIndex + 1, 0));
                 }
             }
 
-            charIndex++;
-            let delay = char === "." ? 200 : speed;
-            if(charIndex < node.textContent.length) {
-                const t = setTimeout(() => typeNode(nodeIndex, charIndex), delay);
-                typewriterController.timers.push(t);
-            } else {
-                typeNode(nodeIndex + 1, 0);
-            }
-        } else if(node.nodeType === Node.ELEMENT_NODE) {
-            const tag = document.createElement(node.nodeName);
-            for(let attr of node.attributes) tag.setAttribute(attr.name, attr.value);
-            element.appendChild(tag);
-            typeWriterHTML(tag, node.innerHTML, speed, () => typeNode(nodeIndex + 1, 0));
-        }
-    }
-
-    typeNode(0, 0);
-}
-
-
-// Spiele Klick Event
-games.forEach(game => {
-    game.addEventListener("mouseenter", () => {
-        const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
-        sound.volume = 0.05;
-        sound.play();
-    });
-
-    game.addEventListener("click", () => {
-        selectSound.currentTime = 0;
-        selectSound.play();
-
-        // Active-Klasse setzen
-        games.forEach(g => g.classList.remove("active"));
-        game.classList.add("active");
-
-        const id = game.dataset.id;
-        const title = game.innerText;
-        const img = game.dataset.img;
-        const state = data[id];
-
-        const missionStatus = state === "done" ? "Erfolgreich" : "Ausstehend";
-        const missionColor = state === "done" ? "green" : "red";
-        const recordingLink = recordings[id];
-
-        // Lade-Text vorbereiten
-        const loadingLines = [
-            "Login...",
-            "Username: H0llyLP",
-            "Passwort: *****",
-            "...",
-            "H0llyLP erfolgreich autorisiert...",
-            "Lade Missionsdaten...",
-            `${title} Speicherdaten werden geladen...`,
-            `<span style="color:${missionColor}; font-weight:bold;">Mission: ${missionStatus}</span>`
-        ];
-
-        if(recordingLink) {
-            let linkText = "Twitch";
-            let linkColor = "#6441a5";
-
-            if(recordingLink.includes("youtube.com") || recordingLink.includes("youtu.be")) {
-                linkText = "YouTube";
-                linkColor = "#CD201F";
-            }
-
-            loadingLines.push(`<span style="white-space: nowrap;">Zur Mission: <a href="${recordingLink}" target="_blank" style="color:${linkColor}; text-decoration:underline;">${linkText}</a></span>`);
+            typeNode(0, 0);
         }
 
-        // Modal Ã¶ffnen
-        modal.style.display = "flex";
 
-        // Modal-Header direkt setzen (kein Typewriter)
-        const modalHeader = document.getElementById("modalTitle");
-        modalHeader.innerHTML = title;
+        // Spiele Klick Event
+        games.forEach(game => {
+            game.addEventListener("mouseenter", () => {
+                const sound = new Audio('Resident-Evil-2-Cursor-Select.mp3');
+                sound.volume = 0.05;
+                sound.play();
+            });
 
-        // Modal-Body tippen
-        recordingDisplay.innerHTML = "";
-        typeWriterLinesInline(loadingLines, recordingDisplay, 50, 400);
+            game.addEventListener("click", () => {
+                selectSound.currentTime = 0;
+                selectSound.play();
 
-        // Bild setzen
-        modalImage.src = img;
-    });
-});
+                // Active-Klasse setzen
+                games.forEach(g => g.classList.remove("active"));
+                game.classList.add("active");
 
+                const id = game.dataset.id;
+                const title = game.innerText;
+                const img = game.dataset.img;
+                const state = data[id];
 
-function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
-    typewriterController.currentLines = lines; // ZEILEN SPEICHERN
-    let lineIndex = 0;
+                const missionStatus = state === "done" ? "Erfolgreich" : "Ausstehend";
+                const missionColor = state === "done" ? "green" : "red";
+                const recordingLink = recordings[id];
 
-    // Alte Timer lÃ¶schen
-    typewriterController.timers.forEach(t => clearTimeout(t));
-    typewriterController.timers = [];
+                // Lade-Text vorbereiten
+                const loadingLines = [
+                    "Login...",
+                    "Username: H0llyLP",
+                    "Passwort: *****",
+                    "...",
+                    "H0llyLP erfolgreich autorisiert...",
+                    "Lade Missionsdaten...",
+                    `${title} Speicherdaten werden geladen...`,
+                    `<span style="color:${missionColor}; font-weight:bold;">Mission: ${missionStatus}</span>`
+                ];
 
-    function typeLine() {
-        if (lineIndex >= lines.length) return;
+                if (recordingLink) {
+                    let linkText = "Twitch";
+                    let linkColor = "#6441a5";
 
-        const span = document.createElement("span");
-        element.appendChild(span);
+                    if (recordingLink.includes("youtube.com") || recordingLink.includes("youtu.be")) {
+                        linkText = "YouTube";
+                        linkColor = "#CD201F";
+                    }
 
-        typeWriterHTML(span, lines[lineIndex], speed, () => {
-            if (!lines[lineIndex].includes('white-space: nowrap')) {
-                element.appendChild(document.createElement("br"));
-            }
-            lineIndex++;
-            const t = setTimeout(typeLine, lineDelay);
-            typewriterController.timers.push(t);
+                    loadingLines.push(`<span style="white-space: nowrap;">Zur Mission: <a href="${recordingLink}" target="_blank" style="color:${linkColor}; text-decoration:underline;">${linkText}</a></span>`);
+                }
+
+                // Modal Ã¶ffnen
+                modal.style.display = "flex";
+
+                // Modal-Header direkt setzen (kein Typewriter)
+                const modalHeader = document.getElementById("modalTitle");
+                modalHeader.innerHTML = title;
+
+                // Modal-Body tippen
+                recordingDisplay.innerHTML = "";
+                typeWriterLinesInline(loadingLines, recordingDisplay, 50, 400);
+
+                // Bild setzen
+                modalImage.src = img;
+            });
         });
-    }
-
-    typeLine();
-}
 
 
+        function typeWriterLinesInline(lines, element, speed = 50, lineDelay = 400) {
+            typewriterController.currentLines = lines; // ZEILEN SPEICHERN
+            let lineIndex = 0;
 
-</script>
+            // Alte Timer lÃ¶schen
+            typewriterController.timers.forEach(t => clearTimeout(t));
+            typewriterController.timers = [];
+
+            function typeLine() {
+                if (lineIndex >= lines.length) return;
+
+                const span = document.createElement("span");
+                element.appendChild(span);
+
+                typeWriterHTML(span, lines[lineIndex], speed, () => {
+                    if (!lines[lineIndex].includes('white-space: nowrap')) {
+                        element.appendChild(document.createElement("br"));
+                    }
+                    lineIndex++;
+                    const t = setTimeout(typeLine, lineDelay);
+                    typewriterController.timers.push(t);
+                });
+            }
+
+            typeLine();
+        }
+
+
+
+    </script>
 </body>
-</html></parameter>
 
-
+</html>
+</parameter>
