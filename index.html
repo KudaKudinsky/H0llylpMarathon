@@ -1202,6 +1202,7 @@
         </div>
     </section>
     <script>
+        document.body.style.overflow = 'hidden';
         const games = document.querySelectorAll(".game");
         const modal = document.getElementById("modal");
         const modalImage = document.getElementById("modalImage");
@@ -1369,6 +1370,7 @@
                 startOverlay.addEventListener('transitionend', () => {
                     startOverlay.style.display = 'none';
                     document.body.classList.add('start');
+                    document.body.style.overflow = '';
                     tierlistBtn.style.display = "";
                     const gridItems = document.querySelectorAll(".game");
                     gridItems.forEach((item, index) => {
