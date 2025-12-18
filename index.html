@@ -1081,7 +1081,10 @@
 
         <div style="text-align:center; margin:30px 0;" class="fade-in">
             <button id="tierlistBtn" class="win-button">
-                🏆 TIERLIST ANZEIGEN
+                🏆 H0lly TIERLIST
+            </button>
+            <button style="margin-left: 30px" id="tierlistBtnChat" class="win-button">
+                🏆 Chat TIERLIST
             </button>
         </div>
 
@@ -1358,6 +1361,13 @@
             D: []
         };
 
+        const tierlistDataChat = {
+            S: [],
+            A: ['re4'],
+            B: ['cv'],
+            C: ['dead'],
+            D: []
+        };
 
         // Aufzeichnungslinks
         const recordings = {
@@ -1404,10 +1414,19 @@
 
         // Tierlist Modal öffnen
         const tierlistBtn = document.getElementById('tierlistBtn');
+        const tierlistBtnChat = document.getElementById('tierlistBtnChat');
         const tierlistModal = document.getElementById('tierlistModal');
         const tierlistContent = document.getElementById('tierlistContent');
 
         tierlistBtn.addEventListener('click', () => {
+            openTierlistModal(tierlistData);
+        });
+
+        tierlistBtnChat.addEventListener('click', () => {
+            openTierlistModal(tierlistDataChat);
+        });
+
+        function openTierlistModal(givenTierListData) {
             selectSound.currentTime = 0;
             selectSound.play();
 
@@ -1426,8 +1445,8 @@
                 gamesContainer.className = 'tier-games';
 
                 // Spiele in der richtigen Reihenfolge einfügen
-                if (tierlistData[tier]) {
-                    tierlistData[tier].forEach(gameId => {
+                if (givenTierListData[tier]) {
+                    givenTierListData[tier].forEach(gameId => {
                         if (gameInfo[gameId]) {
                             const card = document.createElement('div');
                             card.className = 'tier-game-card';
@@ -1459,7 +1478,7 @@
             });
 
             tierlistModal.style.display = 'flex';
-        });
+        }
 
         function closeTierlistModal() {
             tierlistModal.style.display = 'none';
@@ -1725,6 +1744,7 @@
 
 </html>
 </parameter>
+
 
 
 
