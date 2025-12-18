@@ -1381,20 +1381,25 @@
         });
 
         function startSeamlessRain() {
-            currentSound.play();
+            function setupSound(sound) {
+                sound.addEventListener('timeupdate', function checkTime() {
+                    // 0.5 Sekunden vor Ende den nächsten Sound starten
+                    if (sound.duration - sound.currentTime < 0.5) {
+                        nextSound.currentTime = 0;
+                        nextSound.play();
+                        
+                        // Sounds tauschen
+                        [currentSound, nextSound] = [nextSound, currentSound];
+                        
+                        // Event Listener entfernen und für den neuen current Sound neu setzen
+                        sound.removeEventListener('timeupdate', checkTime);
+                        setupSound(currentSound);
+                    }
+                });
+            }
             
-            currentSound.addEventListener('timeupdate', function checkTime() {
-                // 0.5 Sekunden vor Ende den nächsten Sound starten
-                if (currentSound.duration - currentSound.currentTime < 0.5) {
-                    nextSound.currentTime = 0;
-                    nextSound.play();
-                    
-                    // Sounds tauschen
-                    [currentSound, nextSound] = [nextSound, currentSound];
-                    
-                    currentSound.removeEventListener('timeupdate', checkTime);
-                }
-            });
+            setupSound(currentSound);
+            currentSound.play();
         }
 
         // Tierlist Modal öffnen
@@ -1720,6 +1725,7 @@
 
 </html>
 </parameter>
+
 
 
 
