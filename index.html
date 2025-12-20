@@ -1402,7 +1402,7 @@
             function setupSound(sound) {
                 sound.addEventListener('timeupdate', function checkTime() {
                     // 0.5 Sekunden vor Ende den nächsten Sound starten
-                    if (sound.duration - sound.currentTime < 0.5) {
+                    if (sound.duration - sound.currentTime < 0.2) {
                         nextSound.currentTime = 0;
                         nextSound.play();
                         
